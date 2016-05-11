@@ -1,0 +1,23 @@
+{
+  "name": "teamsmart",
+  "version": "1.0.0",
+  "description": "A smarthome project to control lighting that is going to work with the use of Arduino and Philips Hue",
+  "main": "strobe.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cynthiamd/teamsmart.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cynthiamd/teamsmart/issues"
+  },
+  "homepage": "https://github.com/cynthiamd/teamsmart#readme",
+  "dependencies": {
+    "johnny-five": "^0.9.49",
+    "request": "^2.72.0"
+  }
+}
