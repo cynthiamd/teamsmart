@@ -3,14 +3,27 @@ var five = require("johnny-five"),
   board, button1, button2;
 //Create a new board
 board = new five.Board();
-//Request the http for API
- var http = require("http");
- //require request libary
+
+//require request libary
 var request = require('request');
-//Lamp settings
-var data = {"on":true, "sat":100, "bri":254,"hue":10000};
+
+var dns = require("dns");
+
+
+var ping = require('net-ping');
+
+var session = ping.createSession();
+
+var foundBridge = false;
+
+var ipAdress = "192.168.10.247";
+
 //If not holding button down.
 var isHoldingDown = false;
+//
+// var brightness = bri/256*100;
+// var saturation = sat/256*100;
+// var brightness = (hue/65536)*360;
 
 //When button clicked
 board.on("ready", function() {
@@ -36,11 +49,59 @@ board.on("ready", function() {
   //API for Phillips Hue
   var HueApi= "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b/lights/";
   //Bedroom
+
+
+  session.pingHost(ipAdress, function(err, t) {
+    if (err) {
+      console.log('cant find bridge');
+    } else {
+      console.log('found bridge');
+      foundBridge = true;
+      fetchLights();
+    }
+  });
+
   var lamp1 = "1/state";
   //Livingroom
   var lamp2 = "2/state";
   //Hallway
   var lamp3 = "3/state";
+
+  var lamps = [];
+
+  function fetchLights() {
+    request(
+      {
+        method: 'POST',
+        url: HueApi
+      },
+      function(err, res, body) {
+        if (err) {
+          console.log('error', err);
+          return;
+        }
+
+        console.log('search for lights', body);
+
+        request(
+          HueApi,
+          function(err, res, body) {
+            if (err) {
+              console.log('error', err);
+              return;
+            }
+
+            console.log('get new lights', body);
+            var json = JSON.parse(body);
+            for (lamp in json) {
+              lamps.push(json[lamp]);
+            }
+            console.log(lamps);
+          }
+        );
+      }
+    );
+  }
 
 //Function for changing light on Hue!
   var changeColor = function(lamp, sat, bri, hue) {
@@ -64,15 +125,12 @@ board.on("ready", function() {
     );
   };
 
-  // Inject the `button` hardware into
-  // the Repl instance's context;
-  // allows direct command line access
-  board.repl.inject({
-    button: button1
-  });
-
   //When presses down, one click
   button1.on("down", function() {
+    if (!foundBridge) {
+      console.log('bridge doesnt exist');
+      return;
+    }
     //Count our clicks
     count++;
     //If one click
@@ -106,6 +164,10 @@ board.on("ready", function() {
 
   // "hold" the button is pressed for specified time.
   button1.on("hold", function() {
+    if (!foundBridge) {
+      console.log('bridge doesnt exist');
+      return;
+    }
     //Count
     count = 0;
     //Clear timer
