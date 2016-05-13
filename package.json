@@ -18,6 +18,7 @@
   "homepage": "https://github.com/cynthiamd/teamsmart#readme",
   "dependencies": {
     "johnny-five": "^0.9.49",
+    "net-ping": "^1.2.0",
     "request": "^2.72.0"
   }
 }
