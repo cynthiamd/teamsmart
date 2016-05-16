@@ -18,6 +18,7 @@ var foundBridge = false;
 
 var ipAdress = "192.168.10.247";
 
+
 //If not holding button down.
 var isHoldingDown = false;
 //
@@ -125,6 +126,65 @@ board.on("ready", function() {
     );
   };
 
+  var turnOff = function(lamp) {
+      request({
+        method: "PUT",
+        url: HueApi + lamp,
+        json: {
+          on: false,
+          transitiontime:0,
+          alert: "none",
+          effect: "none"
+      }
+      },
+      function(err, res, body) {
+        //console error
+        console.log("err?", err);
+      }
+      );
+  };
+
+//Set Daymode with 60sek interval
+    setInterval(function() {
+      //Get current date in milliseconds
+      var now = new Date();
+      //Get current time 10:28
+      var timefor = now.getHours() + ":" + now.getMinutes();
+      //Get current weekday number 0-6
+      var day = now.getDay();
+
+      //Check if its a weekday else its weekend
+      if (day !== 0 || 6 ){
+          if (now.getHours() == 12 && now.getMinutes() == 30) {
+              if (!foundBridge) {
+                console.log('bridge doesnt exist');
+                return;
+          }
+
+          //Turn off lamps
+            turnOff(lamp1);
+            turnOff(lamp2);
+            turnOff(lamp3);
+            console.log("Daymode");
+      }
+      } else {
+          if (now.getHours() == 09 && now.getMinutes() == 00) {
+              if (!foundBridge) {
+                console.log('bridge doesnt exist');
+                return;
+          }
+
+          //Turn off lamps
+            turnOff(lamp1);
+            turnOff(lamp2);
+            turnOff(lamp3);
+            console.log("Daymode");
+      }
+      }
+
+
+    }, 60000);
+
   //When presses down, one click
   button1.on("down", function() {
     if (!foundBridge) {
@@ -144,7 +204,7 @@ board.on("ready", function() {
         changeColor(lamp2, 100, 100, 20000);
         changeColor(lamp3, 100, 100, 20000);
         console.log("ett klick");
-      }, timer)
+    }, timer);
       //Else if clicks = 2
     } else if (count === 2) {
       //Change color on lamps
@@ -160,7 +220,7 @@ board.on("ready", function() {
       // lös senare!
     }
 
-  }, false)
+}, false);
 
   // "hold" the button is pressed for specified time.
   button1.on("hold", function() {
