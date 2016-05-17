@@ -152,10 +152,9 @@ board.on("ready", function() {
       var timefor = now.getHours() + ":" + now.getMinutes();
       //Get current weekday number 0-6
       var day = now.getDay();
-
       //Check if its a weekday else its weekend
-      if (day !== 0 || 6 ){
-          if (now.getHours() == 12 && now.getMinutes() == 30) {
+      if (day !== 0 && day !== 6 ){
+          if (now.getHours() == 10 && now.getMinutes() == 17) {
               if (!foundBridge) {
                 console.log('bridge doesnt exist');
                 return;
@@ -168,7 +167,7 @@ board.on("ready", function() {
             console.log("Daymode");
       }
       } else {
-          if (now.getHours() == 09 && now.getMinutes() == 00) {
+          if (now.getHours() == 10 && now.getMinutes() == 15) {
               if (!foundBridge) {
                 console.log('bridge doesnt exist');
                 return;
