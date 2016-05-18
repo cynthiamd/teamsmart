@@ -1,11 +1,12 @@
 body {
     background-color: white;
     font-family: 'Lato', sans-serif;
+    margin: 0;
 }
 
 #wrapper {
-    min-width: 440px;
-    max-width: 840px;
+    /*min-width: 440px;
+    max-width: 840px;*/
     margin: 0 auto;
     background-color: #635f66;
 }
@@ -16,10 +17,26 @@ header {
 }
 
 main {
-    width: 75%;
+    width: 100%;
     min-height: 600px;
     margin: 0 auto;
     padding: 70px 0;
+}
+
+.flexbox {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+@media only screen and (min-width: 768px) {
+    main {
+        width: 75%;
+        min-height: 600px;
+        margin: 0 auto;
+        padding: 70px 0;
+    }
 }
 
 footer {
@@ -62,16 +79,16 @@ article {
     height: 150px;
     width: 100px;
     text-align: center;
-    margin: 0 20px;
+    margin: 10px 20px;
 }
 
 .mode {
-    display: inline-block;
+    /*display: inline-block;*/
 }
 
 button {
-    width: 80%;
-    height: 53%;
+    width: 65px;
+    height: 65px;
     margin: 0 auto;
     background-color: #3c3b3e;
     color: white;
@@ -79,6 +96,20 @@ button {
     border-radius: 12px;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
+}
+
+@media only screen and (min-width: 768px) {
+    button {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
+        background-color: #3c3b3e;
+        color: white;
+        border: 1px solid #322e2e;
+        border-radius: 12px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+    }
 }
 
 button:hover {
@@ -104,4 +135,8 @@ h2{
 h3 {
     font-weight: 300;
     color: white;
+}
+
+#settingsheading, .fa-angle-right {
+    margin-left: 10px;
 }
