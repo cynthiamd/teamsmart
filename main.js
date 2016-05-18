@@ -144,7 +144,7 @@ $("#nightmode").click(function () {
  })
 
  $("#standard").click(function() {
-standard();
+   standard();
  })
 
 });	//end document ready
