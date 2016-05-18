@@ -1,39 +1,150 @@
+//API for Phillips Hue
+var hueURL =
+    "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
+		//Bedroom
+    var lightsURL = "/lights/";
+		var lamp1 = "/lights/1/state";
+		//Livingroom
+		var lamp2 = "/lights/2/state";
+		//Hallway
+		var lamp3 = "/lights/3/state";
+		var lamps = [];
+
+		$(document).ready(function() {
+		    // Gör någonting när ert dokument har laddat klart
+                     $.ajax({
+                         url: hueURL,
+                         type: "GET",
+                         contentType: "application/json",
+                         success: function (response) {
+                              console.log(response.lights)
+
+                         }
+                     });
+
+//Söka efter nya lampor!
+function searchLamps () {
+  $.ajax({
+      url: hueURL + lightsURL,
+      type: "POST",
+      contentType: "application/json",
+      success: function(response) {
+        console.log(response);
+      }
+  })
+}
+
+
+/* FUNKTIONER */
+
+//Function for changing light on Hue!
+function changeColor(lamp, statement) {
+
+$.ajax({
+    url: hueURL + lamp,
+    type: "PUT",
+    data: JSON.stringify(statement),
+    contentType: "application/json",
+    success: function(response) {
+        //Take the first song in an array!
+        console.log(response);
+        //Api for voicerss
+    }
+  });
+  }
 
 
 
+function turnOff (lamp) {
+
+  var statement = {"on": false};
+        $.ajax({
+                      url: hueURL + lamp,
+                      type: "PUT",
+                      data: JSON.stringify(statement),
+                      contentType: "application/json",
+                      success: function(response) {
+                          //Take the first song in an array!
+                          console.log(response);
+                          //Api for voicerss
+                      }
+                  });
+}
 
 
-	// 2) Get the lights connected to the Bridge in order to set the menu.
-	$.get(hueURL, function(response){
 
-	})
-	.done(function(){
-		// retreive the lights names from the response
-		// save the names in a backup variable
-		// call setMenu(lights) with the lights names to set the menu.
-	})
-	.fail(function(){
-		// call the setMenu(ligths) with the names of the lights from the backup variable
-		// inform user that lights/lights can not be retreived.
-	});
+//Set Daymode with 60sek interval
+setInterval(dayMode, 60000);
+function dayMode() {
+        //Get current date in milliseconds
+        var now = new Date();
+        //Get current time 10:28
+        var timefor = now.getHours() + ":" + now.getMinutes();
+        //Get current weekday number 0-6
+        var day = now.getDay();
+        //Check if its a weekday else its weekend
+        if (day !== 0 && day !== 6) {
+            if (now.getHours() == 13 && now.getMinutes() == 20) {
+                //Turn off lamps
+                turnOff(lamp1);
+                turnOff(lamp2);
+                turnOff(lamp3);
+                console.log("Daymode weekday");
+            }
+        } else {
+            if (now.getHours() == 10 && now.getMinutes() == 15) {
 
-	// 3) Update light settings
-	// 3a) Perform step one.
-	// 3b) Call changeColor(lamp, sat, bri, hue) to set lamp color.
+                //Turn off lamps
+                turnOff(lamp1);
+                turnOff(lamp2);
+                turnOff(lamp3);
+                console.log("Daymode weekend");
+            }
+        }
+    }
 
-    function setMenu(lights){
-		$('#menu')
-		.append($('<li>')
-			.append($('<a>')
-				.attr('href','https://www.google.se/')
-				.text("Test")
-			)
-		);
-	}
+    //When you press buttonDown,  change color to all three lamps
+    function buttonDown() {
 
-	// 4.1 Turn lights on or off
-	// 4.2 Set light theme
-	// 4.3 Set lights shedule
+                //Change color on lamps
+                changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
+                changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+                changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+                console.log("ett klick");
+            };
+            //Else if clicks = 2
 
+
+
+    function nighhtMode() {
+            //Change color on lamps
+            changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
+            changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "hue": 65280, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "hue": 65280, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            console.log("två klick");
+            //Clear timer!
+        }
+
+        function standard() {
+
+          changeColor(lamp1, {"on": true, "sat": 100, "bri": 100, "hue": 50000});
+          changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 50000}); //Goldenrod XY Color
+          changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 50000});
+
+        }
+
+
+
+$("#daymode").click(function() {
+  dayMode();
+})
+
+$("#nightmode").click(function () {
+  nighhtMode();
+ })
+
+ $("#standard").click(function() {
+standard();
+ })
 
 });	//end document ready
