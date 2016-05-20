@@ -29,7 +29,7 @@ main {
     flex-wrap: wrap;
     align-content: center;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 @media only screen and (min-width: 768px) {
@@ -149,4 +149,16 @@ h3 {
 
 #settingsheading, .fa-angle-right {
     margin-left: 10px;
+}
+
+@media only screen and (max-width: 400px) {
+    .phone {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .ipad {
+        display: none;
+    }
 }
