@@ -200,7 +200,7 @@ $("#nightmode").click(function () {
 });
 
 $( ".show" ).click(function() {
-  $(this).children(".slidetoggle").slideToggle( "slow", function() {
+  $(this).next(".slidetoggle").slideToggle( "slow", function() {
     // Animation complete.
   });
 });
