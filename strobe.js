@@ -1,3 +1,7 @@
+//MAN = function 1 - dbl - nightmode
+//MAN = function 2 - wakt up, press 1 time enter daymode. (shuts off all light) - buttndown.
+//MAN = function 3 - set all light standard colors -
+//MAN = function 4 - panick mode. - hold button
 //Require johnny-five, arduino board and the buttons
 var five = require("johnny-five"),
     board, button1, button2;
@@ -13,7 +17,7 @@ var ipAdress = "192.168.10.247";
 //If not holding button down.
 var isHoldingDown = false;
 //Our timer for double click
-var timer = 400;
+var timer = 1000;
 //Count our clicks
 var count = 0;
 //API for Phillips Hue
@@ -26,7 +30,7 @@ var lamp2 = "2/state";
 //Hallway
 var lamp3 = "3/state";
 var lamps = [];
-
+var interval;
 board.on("ready", function() {
     // Create a new `button` hardware instance.
     // This example allows the button module to
@@ -39,15 +43,14 @@ board.on("ready", function() {
         pin: 3,
         holdtime: 350
     });
-
     //creates a pizo obj and defines the pin to be used for the signal
     var piezo = new five.Piezo(5);
     board.repl.inject({
         piezo: piezo
     });
-
     //Controlling the net connection every 10 seconds
-    setInterval(controllConnection, 10000);
+    setInterval(controllConnection, 1000);
+
     function controllConnection() {
         session.pingHost(ipAdress, function(err, t) {
             if (err) {
@@ -79,7 +82,7 @@ board.on("ready", function() {
                     console.log('error', err);
                     return;
                 }
-                console.log('search for lights', body);
+                //      console.log('search for lights', body);
                 request(HueApi, function(err, res, body) {
                     if (err) {
                         piezo.play({
@@ -90,17 +93,18 @@ board.on("ready", function() {
                         console.log('error', err);
                         return;
                     }
-                    console.log('get new lights', body);
+                    //    console.log('get new lights', body);
                     var json = JSON.parse(body);
                     for (lamp in json) {
                         lamps.push(json[lamp]);
                     }
-                    console.log(lamps);
+                    //    console.log(lamps);
                 });
             });
         }
         //Function for changing light on Hue!
-    function changeColor(lamp, sat, bri, hue, xy) {
+
+    function changeColor(lamp, sat, bri, hue, xy, alert) {
         request({
             method: "PUT",
             url: HueApi + lamp,
@@ -110,7 +114,7 @@ board.on("ready", function() {
                 bri: bri,
                 hue: hue,
                 transitiontime: 0,
-                alert: "none",
+                alert: alert,
                 effect: "none",
                 xy: xy
             }
@@ -118,23 +122,23 @@ board.on("ready", function() {
     }
 
     function turnOff(lamp) {
-        request({
-            method: "PUT",
-            url: HueApi + lamp,
-            json: {
-                on: false,
-                transitiontime: 0,
-                alert: "none",
-                effect: "none"
-            }
-        }, function(err, res, body) {
-            //console error
-            console.log("err?", err);
-        });
-    }
-
-    //Set Daymode with 60sek interval
+            request({
+                method: "PUT",
+                url: HueApi + lamp,
+                json: {
+                    on: false,
+                    transitiontime: 0,
+                    alert: "none",
+                    effect: "none"
+                }
+            }, function(err, res, body) {
+                //console error
+                console.log("err?", err);
+            });
+        }
+        //Set Daymode with 60sek interval
     setInterval(dayMode, 60000);
+
     function dayMode() {
             //Get current date in milliseconds
             var now = new Date();
@@ -170,74 +174,92 @@ board.on("ready", function() {
             }
         }
         //When presses down, one click
-    button1.on("down", buttonDown, false);
-    button1.on("hold", buttonHold);
+    button1.on("hold", buttonPanic);
+    button1.on("down", buttonDownDblClick);
     button1.on("up", buttonUp);
     button2.on("down", buttonTwoDown);
-
+    button2.on("hold", buttonPanic);
+    button2.on("up", buttonUp);
     //When you press buttonDown,  change color to all three lamps
-    function buttonDown() {
-        if (!foundBridge) {
-            console.log('bridge doesnt exist');
-            return;
-        }
-        //Count our clicks
-        count++;
-        //If one click
-        if (count === 1) {
-            //Set timer
-            singelTimer = setTimeout(function() {
-                //Count 0
-                count = 0;
-                //Change color on lamps
-                changeColor(lamp1, 100, 100, 20000);
-                changeColor(lamp2, 100, 100, 20000);
-                changeColor(lamp3, 100, 100, 20000);
-                console.log("ett klick");
-            }, timer);
-            //Else if clicks = 2
-        } else if (count === 2) {
-            //Change color on lamps
-            changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
-            changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-            changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-            console.log("två klick");
-            //Clear timer!
-            clearTimeout(singelTimer);
-            count = 0;
-        }
-    }
 
-    // When you hold down the button for a certain time, change the color.
-    function buttonHold() {
+
+
+
+
+    function buttonPanic() {
         if (!foundBridge) {
             console.log('bridge doesnt exist');
             return;
         }
         //Count
-        count = 0;
-        //Clear timer
-        clearTimeout(singelTimer);
-        //If isHoldingDown = false, make it true!
         if (isHoldingDown == false) {
             isHoldingDown = true;
-            //Change color!
-            changeColor(lamp1, 100, 100, 50000);
-            changeColor(lamp2, 100, 100, 50000);
-            changeColor(lamp3, 100, 100, 50000);
+            var alert = "lselect";
+            changeColor(lamp1, 255, 250, 50000, "", alert);
+            changeColor(lamp2, 255, 250, 50000, "", alert);
+            changeColor(lamp3, 255, 250, 50000, "", alert);
+            interval = setInterval(function() {
+                piezo.play({
+                    song: "C C C C",
+                    beats: 1 / 4,
+                    tempo: 100
+                });
+            }, 3000);
+            setTimeout(function() {
+                clearInterval(interval);
+            }, 20000);
         }
     }
 
-    //When button is up, change the button state to false.
-    function buttonUp() {
-        isHoldingDown = false;
-    }
+    function buttonDownDblClick() {
+            if (!foundBridge) {
+                console.log('bridge doesnt exist');
+                return;
+            }
+            //Count our clicks
+            count++;
+            //If one click
+            if (count === 1) {
+                //Set timer
+                singelTimer = setTimeout(function() {
+                    //Count 0
+                    count = 0;
+                    //Change color on lamps
+                    changeColor(lamp1, 100, 100, 20000);
+                    changeColor(lamp2, 100, 100, 20000);
+                    changeColor(lamp3, 100, 100, 20000);
+                    console.log("ett klick");
+                }, timer);
+                clearInterval(interval);
+                //Else if clicks = 2
+            } else if (count === 2) {
+                //Change color on lamps
+                count = 0;
+                changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
+                changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+                changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+                console.log("två klick");
+                clearTimeout(singelTimer);
+            }
+        }
+        // When you hold down the button for a certain time, change the color.
 
-    // buttonTwoDown, change all three lamps to same color when pressed down
+        //When button is up, change the button state to false.
+
+    function buttonUp() {
+            isHoldingDown = false;
+        }
+        // buttonTwoDown, change all three lamps to same color when pressed down
+
     function buttonTwoDown() {
-        //Change color!
-        changeColor(lamp1, 100, 100, 10000);
-        changeColor(lamp2, 100, 100, 10000);
-        changeColor(lamp3, 100, 100, 10000);
-    }
+            //Change color!
+            changeColor(lamp1, 240, 10, 65280);
+            changeColor(lamp2, 240, 10, 65280);
+            changeColor(lamp3, 240, 10, 65280);
+            clearInterval(interval);
+        }
+        //Panick button, when hold down, turn all three lights same color and blinking 30 times, speaker gives
+        //of a sound every 3 seconds for 20 seconds or until standard button is pressed.
+
+
 });
