@@ -134,8 +134,8 @@ function dayMode() {
     function nighhtMode() {
             //Change color on lamps
             changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
-            changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "hue": 65280, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-            changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "hue": 65280, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
             console.log("två klick");
             //Clear timer!
         }
