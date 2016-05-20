@@ -71,6 +71,21 @@ function turnOff (lamp) {
                   });
 }
 
+function alert(lamp){
+	var statement = {"on": true, "alert": "lselect"};
+	$.ajax({
+								url: hueURL + lamp,
+								type: "PUT",
+								data: JSON.stringify(statement),
+								contentType: "application/json",
+								success: function(response) {
+										//Take the first song in an array!
+										console.log(response);
+										//Api for voicerss
+								}
+						});
+}
+
 
 
 //Set Daymode with 60sek interval
@@ -84,7 +99,7 @@ function dayMode() {
         var day = now.getDay();
         //Check if its a weekday else its weekend
         if (day !== 0 && day !== 6) {
-            if (now.getHours() == 13 && now.getMinutes() == 20) {
+            if (now.getHours() == 13 && now.getMinutes() == 36) {
                 //Turn off lamps
                 turnOff(lamp1);
                 turnOff(lamp2);
@@ -104,14 +119,14 @@ function dayMode() {
     }
 
     //When you press buttonDown,  change color to all three lamps
-    function buttonDown() {
+    function standard() {
 
                 //Change color on lamps
                 changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
                 changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
                 changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
                 console.log("ett klick");
-            };
+            }
             //Else if clicks = 2
 
 
@@ -125,15 +140,44 @@ function dayMode() {
             //Clear timer!
         }
 
-        function standard() {
+        function awayMode() {
 
-          changeColor(lamp1, {"on": true, "sat": 100, "bri": 100, "hue": 50000});
-          changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 50000}); //Goldenrod XY Color
-          changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 50000});
+          changeColor(lamp1, {"on": true, "sat": 100, "bri": 100, "hue": 50000}); // cykla i schema
+          changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 50000}); // cykla i schema
+          changeColor(lamp3, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
+					  console.log("awayMode");
 
         }
 
+				//Set wakeUp with 60sek interval
+				setInterval(wakeUp, 60000);
+				function wakeUp () {
+					//Get current date in milliseconds
+					var now = new Date();
+					//Get current time 10:28
+					var timefor = now.getHours() + ":" + now.getMinutes();
+					//Get current weekday number 0-6
+					var day = now.getDay();
+					//Check if its a weekday else its weekend
+					if (day !== 0 && day !== 6) {
+							if (now.getHours() == 13 && now.getMinutes() == 39) {
+																		//Alert lamps
+									alert(lamp2);
+									console.log("Wake Up weekday");
 
+}
+					} else {
+							if (now.getHours() == 10 && now.getMinutes() == 15) {
+
+									//Alert lamps
+									alert(lamp2);
+									console.log("Wake Up weekends");
+							}
+
+
+				}
+
+}
 
 $("#daymode").click(function() {
   dayMode();
@@ -146,5 +190,15 @@ $("#nightmode").click(function () {
  $("#standard").click(function() {
    standard();
  })
+
+ $("#fullsecurity").click(function() {
+	 awayMode();
+ })
+
+ $("#wakeup").click(function() {
+	wakeUp();
+ })
+
+
 
 });	//end document ready
