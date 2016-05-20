@@ -88,6 +88,14 @@ article {
     /*display: inline-block;*/
 }
 
+.slidetoggle {
+    width: 100%;
+    height: 30px;
+    background-color: pink;
+    display: none;
+    padding: 10px;
+}
+
 button {
     width: 65px;
     height: 65px;

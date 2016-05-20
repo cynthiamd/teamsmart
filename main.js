@@ -181,24 +181,38 @@ function dayMode() {
 
 $("#daymode").click(function() {
   dayMode();
-})
+});
 
 $("#nightmode").click(function () {
   nighhtMode();
- })
+ });
 
  $("#standard").click(function() {
    standard();
- })
+ });
 
  $("#fullsecurity").click(function() {
 	 awayMode();
- })
+ });
 
  $("#wakeup").click(function() {
 	wakeUp();
- })
+});
 
+$( ".show" ).click(function() {
+  $(this).children(".slidetoggle").slideToggle( "slow", function() {
+    // Animation complete.
+  });
+});
+
+//$( ".show" ).click(function() {
+//    $(this).children(i).removeClass(fa-angle-right).addClass(fa-angle-down);
+//});
+
+$( ".show" ).click(function() {
+  $( this ).children("h3").children("i").toggleClass( "fa-angle-right" );
+  $( this ).children("h3").children("i").toggleClass( "fa-angle-down" );
+});
 
 
 });	//end document ready
