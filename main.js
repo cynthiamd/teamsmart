@@ -10,15 +10,15 @@ var hueURL =
 		var lamp3 = "/lights/3/state";
 		var lamps = [];
     var isHoldingDown = false;
+    var jsonURL = "http://ddwap.mah.se/ae4200/teamsmart/json.php";
 
-var urlJSON = "http://ddwap.mah.se/ae4200/teamsmart/json.php";
     function jsonTry (svar) {
       $.ajax({
-          url: urlJSON,
+          url: jsonURL,
           type: "GET",
           contentType: "application/json",
-          complete: function(svar) {
-            console.log(svar);
+          complete: function(response) {
+            console.log(JSON.parse(response.responseText));
           }
       })
     }
