@@ -12,7 +12,7 @@ var hueURL =
     var isHoldingDown = false;
     var jsonURL = "http://ddwap.mah.se/ae4200/teamsmart/json.php";
 
-    function jsonTry (svar) {
+    function getSettings (svar) {
       $.ajax({
           url: jsonURL,
           type: "GET",
@@ -22,7 +22,7 @@ var hueURL =
           }
       })
     }
-jsonTry();
+getSettings();
 
 
 		$(document).ready(function() {
