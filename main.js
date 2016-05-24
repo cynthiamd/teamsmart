@@ -9,6 +9,8 @@ var hueURL =
 		//Hallway
 		var lamp3 = "/lights/3/state";
 		var lamps = [];
+    var isHoldingDown = false;
+
 
 		$(document).ready(function() {
 		    // Gör någonting när ert dokument har laddat klart
@@ -179,6 +181,15 @@ function dayMode() {
 
 }
 
+function panicMode(){
+      changeColor(lamp1, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      changeColor(lamp2, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      changeColor(lamp3, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      alert(lamp1);
+      alert(lamp2);
+      alert(lamp3);
+}
+
 $("#daymode").click(function() {
   dayMode();
 });
@@ -197,6 +208,10 @@ $("#nightmode").click(function () {
 
  $("#wakeup").click(function() {
 	wakeUp();
+});
+
+$("#panic").click(function(){
+  panicMode();
 });
 
 $( ".show" ).click(function() {

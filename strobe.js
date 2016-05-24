@@ -17,7 +17,8 @@ var ipAdress = "192.168.10.247";
 //If not holding button down.
 var isHoldingDown = false;
 //Our timer for double click
-var timer = 1000;
+var timerOneclick = 1000;
+var timerDblClick = 1500;
 //Count our clicks
 var count = 0;
 //API for Phillips Hue
@@ -37,11 +38,11 @@ board.on("ready", function() {
     // create a completely default instance
     button1 = new five.Button({
         pin: 2,
-        holdtime: 350
+        holdtime: 5000
     });
     button2 = new five.Button({
         pin: 3,
-        holdtime: 350
+        holdtime: 5000
     });
     //creates a pizo obj and defines the pin to be used for the signal
     var piezo = new five.Piezo(5);
@@ -133,7 +134,7 @@ board.on("ready", function() {
                 }
             }, function(err, res, body) {
                 //console error
-                console.log("err?", err);
+              //  console.log("err?", err);
             });
         }
         //Set Daymode with 60sek interval
@@ -175,7 +176,7 @@ board.on("ready", function() {
         }
         //When presses down, one click
     button1.on("hold", buttonPanic);
-    button1.on("down", buttonDownDblClick);
+    button1.on("down", buttonDownMultiClick);
     button1.on("up", buttonUp);
     button2.on("down", buttonTwoDown);
     button2.on("hold", buttonPanic);
@@ -198,7 +199,7 @@ board.on("ready", function() {
             changeColor(lamp1, 255, 250, 50000, "", alert);
             changeColor(lamp2, 255, 250, 50000, "", alert);
             changeColor(lamp3, 255, 250, 50000, "", alert);
-            interval = setInterval(function() {
+            /*interval = setInterval(function() {
                 piezo.play({
                     song: "C C C C",
                     beats: 1 / 4,
@@ -207,11 +208,11 @@ board.on("ready", function() {
             }, 3000);
             setTimeout(function() {
                 clearInterval(interval);
-            }, 20000);
+            }, 20000);*/
         }
     }
 
-    function buttonDownDblClick() {
+    function buttonDownMultiClick() {
             if (!foundBridge) {
                 console.log('bridge doesnt exist');
                 return;
@@ -224,22 +225,30 @@ board.on("ready", function() {
                 singelTimer = setTimeout(function() {
                     //Count 0
                     count = 0;
-                    //Change color on lamps
-                    changeColor(lamp1, 100, 100, 20000);
-                    changeColor(lamp2, 100, 100, 20000);
-                    changeColor(lamp3, 100, 100, 20000);
-                    console.log("ett klick");
-                }, timer);
-                clearInterval(interval);
+                    dayMode();
+                }, timerOneclick);
                 //Else if clicks = 2
             } else if (count === 2) {
                 //Change color on lamps
-                count = 0;
-                changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
-                changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-                changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-                console.log("två klick");
                 clearTimeout(singelTimer);
+                doubleTimer = setTimeout(function () {
+                  count = 0;
+                  changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
+                  changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+                  changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+                  console.log("två klick");
+                },timerDblClick);
+
+
+              }else if(count === 3){
+                count = 0;
+                changeColor(lamp1, 100, 100, 20000);
+                changeColor(lamp2, 100, 100, 20000);
+                changeColor(lamp3, 100, 100, 20000); //Goldenrod XY Color
+                clearTimeout(doubleTimer);
+                clearInterval(interval);
+                console.log("tre klick");
+
             }
         }
         // When you hold down the button for a certain time, change the color.
@@ -252,12 +261,40 @@ board.on("ready", function() {
         // buttonTwoDown, change all three lamps to same color when pressed down
 
     function buttonTwoDown() {
-            //Change color!
-            changeColor(lamp1, 240, 10, 65280);
-            changeColor(lamp2, 240, 10, 65280);
-            changeColor(lamp3, 240, 10, 65280);
-            clearInterval(interval);
-        }
+      if (!foundBridge) {
+          console.log('bridge doesnt exist');
+          return;
+      }
+      //Count our clicks
+      count++;
+      //If one click
+      if (count === 1) {
+        singelTimer = setTimeout(function(){
+          count = 0;
+          turnOff(lamp1);
+          turnOff(lamp2);
+          turnOff(lamp3);
+          console.log("ett click");
+        },timerOneclick);
+      }else if (count === 2) {
+        clearTimeout(singelTimer);
+        doubleTimer = setTimeout(function () {
+          count = 0;
+          changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
+          changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+          changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+          console.log("två klick");
+        },timerDblClick);
+      }else if(count === 3){
+        count = 0;
+        changeColor(lamp1, 100, 100, 20000);
+        changeColor(lamp2, 100, 100, 20000);
+        changeColor(lamp3, 100, 100, 20000); //Goldenrod XY Color
+        clearTimeout(doubleTimer);
+        clearInterval(interval);
+        console.log("tre klick");
+      }
+  }
         //Panick button, when hold down, turn all three lights same color and blinking 30 times, speaker gives
         //of a sound every 3 seconds for 20 seconds or until standard button is pressed.
 
