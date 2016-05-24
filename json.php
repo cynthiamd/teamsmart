@@ -1,7 +1,7 @@
 <?php
 ​
 // File that stores all the JSON data
-$filename = "database.json";
+$filename = "settings.json";
 ​
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 ​
@@ -28,6 +28,6 @@ if ($requestMethod == "POST") {
 ​
     // Store everything in our file
     file_put_contents($filename, json_encode($json));
-    
+
     exit(0);
 }
