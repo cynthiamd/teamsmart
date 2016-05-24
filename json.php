@@ -1,7 +1,7 @@
 <?php
 ​
 // File that stores all the JSON data
-$filename = "settings.json";
+$filename = "http://ddwap.mah.se/ae4200/teamsmart/settings.json";
 ​
 $requestMethod = $_SERVER["REQUEST_METHOD"];
 ​
