@@ -12,6 +12,12 @@ var hueURL =
     var isHoldingDown = false;
     var jsonURL = "http://ddwap.mah.se/ae4200/teamsmart/json.php";
 
+    function getColorInputs(lights) {
+    return lights.map(function(light) {
+      return '<span>' + light.id + '</span><input name="' + light.id + '" class="colorPicker jscolor {mode:\'HSV\',position:\'right\'}">';
+    }).join("");
+  }
+
     function getSettings (svar) {
       $.ajax({
           url: jsonURL,
@@ -242,5 +248,18 @@ $( ".show" ).click(function() {
   $( this ).children("h3").children("i").toggleClass( "fa-angle-down" );
 });
 
+$.getJSON("json.json", function(json) {
+  console.log(json);
+})
+
+  // var inputsForDayMode = getColorInputs(settings.daymode.lights);
+  // console.log(inputsForDayMode);
+  //
+  // $("#myform").append(inputsForDayMode);
+  $("#myform").submit(function(e) {
+    console.log(e.target.elements);
+    e.preventDefault();
+    console.log("skickade formuläret");
+  })
 
 });	//end document ready
