@@ -11,6 +11,19 @@ var hueURL =
 		var lamps = [];
     var isHoldingDown = false;
 
+var urlJSON = "http://ddwap.mah.se/ae4200/teamsmart/json.php";
+    function jsonTry (svar) {
+      $.ajax({
+          url: urlJSON,
+          type: "GET",
+          contentType: "application/json",
+          complete: function(svar) {
+            console.log(svar);
+          }
+      })
+    }
+jsonTry();
+
 
 		$(document).ready(function() {
 		    // Gör någonting när ert dokument har laddat klart
