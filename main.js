@@ -248,7 +248,7 @@ $( ".show" ).click(function() {
   $( this ).children("h3").children("i").toggleClass( "fa-angle-down" );
 });
 
-$.getJSON("json.json", function(json) {
+$.getJSON(jsonURL, function(json) {
   console.log(json);
 })
 
