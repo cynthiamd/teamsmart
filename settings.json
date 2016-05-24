@@ -37,7 +37,7 @@
 		]
 	},
 
-	"daymode": {
+	"dayMode": {
 		"active": false,
 		"button1": "",
 		"button2": "",
