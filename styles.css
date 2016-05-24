@@ -108,6 +108,14 @@ button {
     transition-duration: 0.4s;
 }
 
+#panic {
+    background-color: #b93a16
+}
+
+#panic:hover {
+    background-color: #3c3b3e;
+}
+
 @media only screen and (min-width: 768px) {
     button {
         width: 80px;
