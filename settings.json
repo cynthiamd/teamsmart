@@ -44,7 +44,7 @@
 						[
 							{"id": "lamp1", "on": true, "sat": 100, "bri": 60, "hue": 10000},
 							{"id": "lamp2", "on": true, "sat": 100, "bri": 60, "hue": 10000},
-							{"id": "lamp3", "on": true, "sat": 240, "bri": 140, "hue": 65280}}
+							{"id": "lamp3", "on": true, "sat": 240, "bri": 140, "hue": 65280}
 
 						]
 			},
@@ -71,7 +71,7 @@
 				"active" : false,
 				"button1" : "",
 				"button2" : "",
-				"cycle": [
+				"cycle": {
 							"lights1":
 									[
 										{"id": "lamp1", "on": true, "sat": 240, "bri": 140, "hue": 10000},
@@ -241,6 +241,6 @@
 
 									]
 
-				]
-			}
+				}
+
 }
