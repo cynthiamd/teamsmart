@@ -10,7 +10,7 @@ var hueURL =
 		var lamp3 = "/lights/3/state";
 		var lamps = [];
     var isHoldingDown = false;
-    var jsonURL = "http://ddwap.mah.se/ae4200/teamsmart/json.php";
+    var jsonURL = "http://xn--paulinehgh-lcb.se/smarthome/json.php";
 
     function getColorInputs(lights) {
     return lights.map(function(light) {
@@ -21,12 +21,14 @@ var hueURL =
     function getSettings (svar) {
       $.ajax({
           url: jsonURL,
+
           type: "GET",
-          contentType: "application/json",
-          complete: function(response) {
+          
+
+          sucesss: function(response) {
             console.log(JSON.parse(response.responseText));
           }
-      })
+      });
     }
 getSettings();
 
@@ -38,7 +40,7 @@ getSettings();
                          type: "GET",
                          contentType: "application/json",
                          success: function (response) {
-                              console.log(response.lights)
+                              console.log(response.lights);
 
                          }
                      });
@@ -52,7 +54,7 @@ function searchLamps () {
       success: function(response) {
         console.log(response);
       }
-  })
+  });
 }
 
 
@@ -181,7 +183,7 @@ function dayMode() {
 					var day = now.getDay();
 					//Check if its a weekday else its weekend
 					if (day !== 0 && day !== 6) {
-							if (now.getHours() == 13 && now.getMinutes() == 39) {
+							if (now.getHours() == 11 && now.getMinutes() == 22) {
 																		//Alert lamps
 									alert(lamp2);
 									console.log("Wake Up weekday");
@@ -250,7 +252,7 @@ $( ".show" ).click(function() {
 
 $.getJSON(jsonURL, function(json) {
   console.log(json);
-})
+});
 
   // var inputsForDayMode = getColorInputs(settings.daymode.lights);
   // console.log(inputsForDayMode);
@@ -260,6 +262,6 @@ $.getJSON(jsonURL, function(json) {
     console.log(e.target.elements);
     e.preventDefault();
     console.log("skickade formuläret");
-  })
+});
 
 });	//end document ready
