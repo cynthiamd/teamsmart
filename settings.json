@@ -122,6 +122,36 @@
 
 		]
 	},
+	
+	"panicMode": {
+		"active": false,
+		"button1": "",
+		"button2": "",
+		"hours": "",
+		"minute": "",
+		"mode": "",
+		"lights": [{
+				"id": "lamp1",
+				"on": true,
+				"sat": 255,
+				"bri": 250,
+				"hue": 50000
+			}, {
+				"id": "lamp2",
+				"on": true,
+				"sat": 255,
+				"bri": 250,
+				"hue": 50000
+			}, {
+				"id": "lamp3",
+				"on": true,
+				"sat": 255,
+				"bri": 250,
+				"hue": 50000
+			}
+
+		]
+	},
 
 	"awayMode": {
 		"active": false,

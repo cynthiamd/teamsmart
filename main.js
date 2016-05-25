@@ -220,9 +220,25 @@ function dayMode() {
 }
 
 function panicMode(){
-      changeColor(lamp1, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
-      changeColor(lamp2, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
-      changeColor(lamp3, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+			if (!settings) {
+				console.log('settings har inte hämtats');
+				return false;
+				}	
+	
+      //changeColor(lamp1, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      //changeColor(lamp2, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      //changeColor(lamp3, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+	  
+	  settings.panicMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
+                console.log("panicMode");
+	  
       alert(lamp1);
       alert(lamp2);
       alert(lamp3);
