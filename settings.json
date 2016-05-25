@@ -135,19 +135,22 @@
 				"on": true,
 				"sat": 255,
 				"bri": 250,
-				"hue": 50000
+				"hue": 50000,
+				"alert" : "lselect"
 			}, {
 				"id": "lamp2",
 				"on": true,
 				"sat": 255,
 				"bri": 250,
-				"hue": 50000
+				"hue": 50000,
+				"alert" : "lselect"
 			}, {
 				"id": "lamp3",
 				"on": true,
 				"sat": 255,
 				"bri": 250,
-				"hue": 50000
+				"hue": 50000,
+				"alert" : "lselect"
 			}
 
 		]
