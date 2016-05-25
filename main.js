@@ -119,6 +119,12 @@ function alert(lamp){
 //Set Daymode with 60sek interval
 setInterval(dayMode, 60000);
 function dayMode() {
+	
+		if (!settings) {
+				console.log('settings har inte hämtats');
+                return false;
+        }
+		
         //Get current date in milliseconds
         var now = new Date();
         //Get current time 10:28
@@ -129,18 +135,36 @@ function dayMode() {
         if (day !== 0 && day !== 6) {
             if (now.getHours() == 13 && now.getMinutes() == 36) {
                 //Turn off lamps
-                turnOff(lamp1);
-                turnOff(lamp2);
-                turnOff(lamp3);
+                //turnOff(lamp1);
+                //turnOff(lamp2);
+                //turnOff(lamp3);
+				
+				settings.dayMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 console.log("Daymode weekday");
             }
         } else {
             if (now.getHours() == 10 && now.getMinutes() == 15) {
 
                 //Turn off lamps
-                turnOff(lamp1);
-                turnOff(lamp2);
-                turnOff(lamp3);
+                //turnOff(lamp1);
+                //turnOff(lamp2);
+                //turnOff(lamp3);
+				
+				settings.dayMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 console.log("Daymode weekend");
             }
         }
@@ -173,10 +197,26 @@ function dayMode() {
 
     function nightMode() {
             //Change color on lamps
-            changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
-            changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-            changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-            console.log("två klick");
+            //changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
+            //changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            //changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            
+			
+			if (!settings) {
+                    console.log('settings har inte hämtats');
+                    return false;
+                }
+
+                settings.nightMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
+                console.log("två klick");
+			
             //Clear timer!
         }
 
