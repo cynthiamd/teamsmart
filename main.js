@@ -12,25 +12,30 @@ var hueURL =
     var isHoldingDown = false;
     var jsonURL = "http://xn--paulinehgh-lcb.se/smarthome/json.php";
 
+    var settings = false;
+
     function getColorInputs(lights) {
     return lights.map(function(light) {
       return '<span>' + light.id + '</span><input name="' + light.id + '" class="colorPicker jscolor {mode:\'HSV\',position:\'right\'}">';
     }).join("");
   }
 
-    function getSettings (svar) {
+    function getSettings () {
       $.ajax({
           url: jsonURL,
-
           type: "GET",
-          
-
           sucesss: function(response) {
-            console.log(JSON.parse(response.responseText));
+              var json = JSON.parse(response.responseText);
+            console.log(json);
+            settings = json;
           }
       });
     }
-getSettings();
+// getSettings();
+
+$.getJSON(jsonURL, function(json) {
+  settings = json;
+});
 
 
 		$(document).ready(function() {
@@ -143,11 +148,23 @@ function dayMode() {
 
     //When you press buttonDown,  change color to all three lamps
     function standard() {
-
+                if (!settings) {
+                    console.log('settings har inte hämtats');
+                    return false;
+                }
                 //Change color on lamps
-                changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
-                changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
-                changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+                //changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
+                //changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+                //changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+
+                settings.standard.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 console.log("ett klick");
             }
             //Else if clicks = 2
@@ -250,9 +267,6 @@ $( ".show" ).click(function() {
   $( this ).children("h3").children("i").toggleClass( "fa-angle-down" );
 });
 
-$.getJSON(jsonURL, function(json) {
-  console.log(json);
-});
 
   // var inputsForDayMode = getColorInputs(settings.daymode.lights);
   // console.log(inputsForDayMode);
