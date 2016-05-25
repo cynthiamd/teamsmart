@@ -1,95 +1,105 @@
 <!doctype html>
 <html>
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <script src="https://use.fontawesome.com/8a80e236fb.js"></script>
-        <meta charset="utf-8">
-        <title>Smart Home app - settings</title>
-        <link href='https://fonts.googleapis.com/css?family=Rock+Salt|Lato:400,700,900,300' rel='stylesheet' type='text/css'>
-        <link href="styles.css" type="text/css" rel="stylesheet">
 
-    </head>
-    <body>
-        <div id="wrapper">
-            <header>
-                <nav>
-                    <div id="logo">
-                        <h1>HueLux</h1>
-                    </div>
-                    <div id="settings">
-                        <a href="index.html"><button><i class="fa fa-home fa-3x"></i></button></a>
-                    </div>
-                </nav>
-            </header>
-                <main>
-                    <h2 id="settingsheading">Settings</h2>
-                    <br />
-                    <div class="show" id="daysetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  DayMode</h3>
-                    </div>
-                    <div class="slidetoggle" id="daypick">
-                        <input type="color" value="#3355cc" />
-                    </div>
+<head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <script src="https://use.fontawesome.com/8a80e236fb.js"></script>
+    <meta charset="utf-8">
+    <title>Smart Home app - settings</title>
+    <link href='https://fonts.googleapis.com/css?family=Rock+Salt|Lato:400,700,900,300' rel='stylesheet' type='text/css'>
+    <link href="styles.css" type="text/css" rel="stylesheet">
 
+</head>
 
-                    <div class="show" id="nightsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  NightMode</h3>
-                    </div>
-                    <div class="slidetoggle" id="nightpick">
-                    </div>
+<body>
+    <div id="wrapper">
+        <header>
+            <nav>
+                <div id="logo">
+                    <h1>HueLux</h1>
+                </div>
+                <div id="settings">
+                    <a href="index.html">
+                        <button><i class="fa fa-home fa-3x"></i></button>
+                    </a>
+                </div>
+            </nav>
+        </header>
+        <main>
+            <h2 id="settingsheading">Settings</h2>
+            <br />
+            <div class="show" id="daysetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  DayMode</h3>
+            </div>
+            <div class="slidetoggle" id="daypick">
 
-
-                    <div class="show" id="fullsecsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  Full Security</h3>
-                    </div>
-                    <div class="slidetoggle" id="fullpick">
-                    </div>
+                <form id="myform" action="#">
+                    <input class="colorPicker" type="submit">
+                </form>
+            </div>
 
 
-                    <div class="show" id="standardsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  Standard</h3>
-                    </div>
-                    <div class="slidetoggle" id="standardpick">
-                    </div>
+            <div class="show" id="nightsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  NightMode</h3>
+            </div>
+            <div class="slidetoggle" id="nightpick">
+            </div>
 
 
-                    <div class="show" id="socialsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  Facebook</h3>
-                    </div>
-                    <div class="slidetoggle" id="socialpick">
-                    </div>
+            <div class="show" id="fullsecsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  Full Security</h3>
+            </div>
+            <div class="slidetoggle" id="fullpick">
+            </div>
 
 
-                    <div class="show" id="wakeupsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  Wakeup</h3>
-                    </div>
-                    <div class="slidetoggle" id="wakeuppick">
-                    </div>
+            <div class="show" id="standardsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  Standard</h3>
+            </div>
+            <div class="slidetoggle" id="standardpick">
+            </div>
 
 
-                    <div class="show" id="calendarsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  Calendar</h3>
-                    </div>
-                    <div class="slidetoggle" id="calendarpick">
-                    </div>
+            <div class="show" id="socialsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  Facebook</h3>
+            </div>
+            <div class="slidetoggle" id="socialpick">
+            </div>
 
 
-                    <div class="show" id="panicsetting">
-                        <h3><i class="fa fa-angle-right fa-lg"></i>  Panicmode</h3>
-                    </div>
-                    <div class="slidetoggle" id="panicpick">
-                    </div>
+            <div class="show" id="wakeupsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  Wakeup</h3>
+            </div>
+            <div class="slidetoggle" id="wakeuppick">
+            </div>
 
-                </main>
-            <footer>
-                <h3>A smarthome project made by Malmö Högskola</h3>
-            </footer>
-        </div> <!--end wrapper -->
-        <!--
+
+            <div class="show" id="calendarsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  Calendar</h3>
+            </div>
+            <div class="slidetoggle" id="calendarpick">
+            </div>
+
+
+            <div class="show" id="panicsetting">
+                <h3><i class="fa fa-angle-right fa-lg"></i>  Panicmode</h3>
+            </div>
+            <div class="slidetoggle" id="panicpick">
+            </div>
+
+        </main>
+        <footer>
+            <h3>A smarthome project made by Malmö Högskola</h3>
+        </footer>
+    </div>
+    <!--end wrapper -->
+    <!--
         Observera att vi placerar alltid <script>
         precis innan vi stänger <body>, dvs. sist.
         -->
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="main.js"></script>
-    </body>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="jscolor/jscolor.js"></script>
+    <script src="main.js"></script>
+</body>
+
 </html>

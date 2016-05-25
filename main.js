@@ -10,6 +10,32 @@ var hueURL =
 		var lamp3 = "/lights/3/state";
 		var lamps = [];
     var isHoldingDown = false;
+    var jsonURL = "http://xn--paulinehgh-lcb.se/smarthome/json.php";
+
+    var settings = false;
+
+    function getColorInputs(lights) {
+    return lights.map(function(light) {
+      return '<span>' + light.id + '</span><input name="' + light.id + '" class="colorPicker jscolor {mode:\'HSV\',position:\'right\'}">';
+    }).join("");
+  }
+
+    function getSettings () {
+      $.ajax({
+          url: jsonURL,
+          type: "GET",
+          sucesss: function(response) {
+              var json = JSON.parse(response.responseText);
+            console.log(json);
+            settings = json;
+          }
+      });
+    }
+// getSettings();
+
+$.getJSON(jsonURL, function(json) {
+  settings = json;
+});
 
 
 		$(document).ready(function() {
@@ -19,7 +45,7 @@ var hueURL =
                          type: "GET",
                          contentType: "application/json",
                          success: function (response) {
-                              console.log(response.lights)
+                              console.log(response.lights);
 
                          }
                      });
@@ -33,7 +59,7 @@ function searchLamps () {
       success: function(response) {
         console.log(response);
       }
-  })
+  });
 }
 
 
@@ -93,6 +119,12 @@ function alert(lamp){
 //Set Daymode with 60sek interval
 setInterval(dayMode, 60000);
 function dayMode() {
+	
+		if (!settings) {
+				console.log('settings har inte hämtats');
+                return false;
+        }
+		
         //Get current date in milliseconds
         var now = new Date();
         //Get current time 10:28
@@ -103,18 +135,36 @@ function dayMode() {
         if (day !== 0 && day !== 6) {
             if (now.getHours() == 13 && now.getMinutes() == 36) {
                 //Turn off lamps
-                turnOff(lamp1);
-                turnOff(lamp2);
-                turnOff(lamp3);
+                //turnOff(lamp1);
+                //turnOff(lamp2);
+                //turnOff(lamp3);
+				
+				settings.dayMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 console.log("Daymode weekday");
             }
         } else {
             if (now.getHours() == 10 && now.getMinutes() == 15) {
 
                 //Turn off lamps
-                turnOff(lamp1);
-                turnOff(lamp2);
-                turnOff(lamp3);
+                //turnOff(lamp1);
+                //turnOff(lamp2);
+                //turnOff(lamp3);
+				
+				settings.dayMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 console.log("Daymode weekend");
             }
         }
@@ -122,11 +172,23 @@ function dayMode() {
 
     //When you press buttonDown,  change color to all three lamps
     function standard() {
-
+                if (!settings) {
+                    console.log('settings har inte hämtats');
+                    return false;
+                }
                 //Change color on lamps
-                changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
-                changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
-                changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+                //changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
+                //changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+                //changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
+
+                settings.standard.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 console.log("ett klick");
             }
             //Else if clicks = 2
@@ -135,10 +197,26 @@ function dayMode() {
 
     function nightMode() {
             //Change color on lamps
-            changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
-            changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-            changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-            console.log("två klick");
+            //changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
+            //changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            //changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
+            
+			
+			if (!settings) {
+                    console.log('settings har inte hämtats');
+                    return false;
+                }
+
+                settings.nightMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
+                console.log("två klick");
+			
             //Clear timer!
         }
 
@@ -162,7 +240,7 @@ function dayMode() {
 					var day = now.getDay();
 					//Check if its a weekday else its weekend
 					if (day !== 0 && day !== 6) {
-							if (now.getHours() == 13 && now.getMinutes() == 39) {
+							if (now.getHours() == 11 && now.getMinutes() == 22) {
 																		//Alert lamps
 									alert(lamp2);
 									console.log("Wake Up weekday");
@@ -182,9 +260,25 @@ function dayMode() {
 }
 
 function panicMode(){
-      changeColor(lamp1, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
-      changeColor(lamp2, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
-      changeColor(lamp3, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+			if (!settings) {
+				console.log('settings har inte hämtats');
+				return false;
+				}	
+	
+      //changeColor(lamp1, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      //changeColor(lamp2, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+      //changeColor(lamp3, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
+	  
+	  settings.panicMode.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
+                console.log("panicMode");
+	  
       alert(lamp1);
       alert(lamp2);
       alert(lamp3);
@@ -229,5 +323,15 @@ $( ".show" ).click(function() {
   $( this ).children("h3").children("i").toggleClass( "fa-angle-down" );
 });
 
+
+  // var inputsForDayMode = getColorInputs(settings.daymode.lights);
+  // console.log(inputsForDayMode);
+  //
+  // $("#myform").append(inputsForDayMode);
+  $("#myform").submit(function(e) {
+    console.log(e.target.elements);
+    e.preventDefault();
+    console.log("skickade formuläret");
+});
 
 });	//end document ready
