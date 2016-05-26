@@ -240,33 +240,34 @@ $(document).ready(function() {
     }
 
     //Set wakeUp with 60sek interval
-    setInterval(awayMode, 60000);
-    function awayMode() {
+      function awayMode() {
 
-      //Get current date in milliseconds
-       var nu = new Date();
-       //Get current time 10:28
-       var tid = nu.getHours();
+        //Get current date in milliseconds
+         var nu = new Date();
+         //Get current time 10:28
+         var tid = nu.getHours();
 
-       if (!settings) {
-           console.log('settings har inte hämtats');
-           return false;
-       }
 
-       //Check if its the right time
-       if (nu.getHours() == 10) {
+         if (!settings) {
+             console.log('settings har inte hämtats');
+             return false;
+         }
 
-   settings.awayMode.cycle.lights10.forEach(function(light) {
-               changeColor("/lights/" + light.id.substr(-1) + "/state", {
-                   on: light.on,
-                   sat: light.sat,
-                   bri: light.bri,
-                   hue: light.hue
-               });
-           });
-     console.log("awayMode");
+  var ljus = "lights" + nu.getHours();
 
-}
+  window["settings"]["awayMode"]["cycle"][ljus].forEach(function(light) {
+                 changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                     on: light.on,
+                     sat: light.sat,
+                     bri: light.bri,
+                     hue: light.hue
+                 });
+             });
+
+       console.log("awayMode");
+     }
+  setInterval(awayMode, 600000);
+
 
            if (nu.getHours() == 11) {
 
