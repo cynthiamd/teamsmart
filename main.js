@@ -11,7 +11,7 @@ var lamp3 = "/lights/3/state";
 var lamps = [];
 var isHoldingDown = false;
 var jsonURL = "http://xn--paulinehgh-lcb.se/smarthome/json.php";
-
+var interval;
 var settings = false;
 
 function getColorInputs(lights)  {
@@ -208,6 +208,7 @@ $(document).ready(function() {
                 hue: light.hue
             });
         });
+        clearInterval(interval);
         console.log("ett klick");
     }
     //Else if clicks = 2
@@ -325,6 +326,14 @@ $(document).ready(function() {
         alert(lamp1);
         alert(lamp2);
         alert(lamp3);
+
+        interval = setInterval(function () {
+          var audiofile = document.getElementById('audio')
+          audiofile.play();
+        }, 2000);
+        setTimeout(function() {
+            clearInterval(interval);
+        }, 20000);
     }
 
     $("#daymode").click(function() {
