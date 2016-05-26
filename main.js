@@ -38,6 +38,9 @@ $.getJSON(jsonURL, function(json) {
 });
 
 
+/* FUNKTIONER */
+
+
 $(document).ready(function() {
     // Gör någonting när ert dokument har laddat klart
     $.ajax({
@@ -63,8 +66,16 @@ $(document).ready(function() {
         });
     }
 
-
-    /* FUNKTIONER */
+    function getLamps() {
+        $.ajax({
+            url: hueURL + lightsURL,
+            type: "GET",
+            contentType: "application/json",
+            success: function(response) {
+                console.log(response);
+            }
+        });
+    }
 
     //Function for changing light on Hue!
     function changeColor(lamp, statement) {
@@ -342,10 +353,27 @@ $(document).ready(function() {
     $("#facebook").click(function() {
         var id = prompt("Enter your Device id:");
         var newID = {
-            "deviceid": id
+            "deviceid": [id]
         };
         console.log(newID);
         searchLamps(newID);
+
+        var count = 20;
+
+        var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
+
+        function timer() {
+            count = count - 1;
+
+            if (count <= 0) {
+                clearInterval(counter);
+                getLamps();
+                return;
+            }
+
+
+        }
+
     });
 
     //$( ".show" ).click(function() {
