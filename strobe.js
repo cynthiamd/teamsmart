@@ -7,6 +7,10 @@ var five = require("johnny-five"),
     board, button1, button2;
 //Create a new board
 board = new five.Board();
+var on;
+var sat;
+var hue;
+var bri;
 //require request libary
 var request = require('request');
 var dns = require("dns");
@@ -17,13 +21,14 @@ var ipAdress = "192.168.10.247";
 //If not holding button down.
 var isHoldingDown = false;
 //Our timer for double click
-var timerOneclick = 1000;
+var timerOneclick = 1250;
 var timerDblClick = 1500;
+var singelTimer;
 //Count our clicks
 var count = 0;
 //API for Phillips Hue
 var HueApi =
-    "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b/lights/";
+    "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
 //Bedroom
 var lamp1 = "1/state";
 //Livingroom
@@ -32,23 +37,33 @@ var lamp2 = "2/state";
 var lamp3 = "3/state";
 var lamps = [];
 var interval;
+var settings;
 board.on("ready", function() {
     // Create a new `button` hardware instance.
     // This example allows the button module to
     // create a completely default instance
     button1 = new five.Button({
         pin: 2,
-        holdtime: 5000
+        holdtime: 1000
     });
     button2 = new five.Button({
         pin: 3,
-        holdtime: 5000
+        holdtime: 1000
     });
     //creates a pizo obj and defines the pin to be used for the signal
     var piezo = new five.Piezo(5);
     board.repl.inject({
         piezo: piezo
     });
+
+    function getJSONfile(){
+      request('http://xn--paulinehgh-lcb.se/smarthome/json.php', function(error,response,body){
+        if(!error && response.statusCode == 200){
+          var data = JSON.parse(body)
+          settings = data;
+        }
+      });
+    }
     //Controlling the net connection every 10 seconds
     setInterval(controllConnection, 1000);
 
@@ -62,9 +77,10 @@ board.on("ready", function() {
                 });
                 console.log('cant find bridge');
             } else {
-                console.log('found bridge');
+              //  console.log('found bridge');
                 foundBridge = true;
                 fetchLights();
+                getJSONfile();
             }
         });
     }
@@ -104,21 +120,11 @@ board.on("ready", function() {
             });
         }
         //Function for changing light on Hue!
-
-    function changeColor(lamp, sat, bri, hue, xy, alert) {
+    function changeColor(lamp, statement) {
         request({
             method: "PUT",
             url: HueApi + lamp,
-            json: {
-                on: true,
-                sat: sat,
-                bri: bri,
-                hue: hue,
-                transitiontime: 0,
-                alert: alert,
-                effect: "none",
-                xy: xy
-            }
+            json: statement
         });
     }
 
@@ -178,6 +184,7 @@ board.on("ready", function() {
     button1.on("hold", buttonPanic);
     button1.on("down", buttonDownMultiClick);
     button1.on("up", buttonUp);
+
     button2.on("down", buttonTwoDown);
     button2.on("hold", buttonPanic);
     button2.on("up", buttonUp);
@@ -191,24 +198,34 @@ board.on("ready", function() {
         if (!foundBridge) {
             console.log('bridge doesnt exist');
             return;
-        }
-        //Count
-        if (isHoldingDown == false) {
-            isHoldingDown = true;
-            var alert = "lselect";
-            changeColor(lamp1, 255, 250, 50000, "", alert);
-            changeColor(lamp2, 255, 250, 50000, "", alert);
-            changeColor(lamp3, 255, 250, 50000, "", alert);
-            /*interval = setInterval(function() {
-                piezo.play({
-                    song: "C C C C",
-                    beats: 1 / 4,
-                    tempo: 100
-                });
-            }, 3000);
-            setTimeout(function() {
-                clearInterval(interval);
-            }, 20000);*/
+        }else if(!settings){
+          console.log('settings har inte hämtats');
+          return false;
+        } else if(isHoldingDown == false){
+          isHoldingDown = true;
+          clearTimeout(singelTimer);
+          count = 0;
+          var alert = "lselect";
+          settings.panicMode.lights.forEach(function(light) {
+              changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                  on: light.on,
+                  sat: light.sat,
+                  bri: light.bri,
+                  hue: light.hue,
+                  alert: light.alert
+              });
+          });
+          console.log("Hold Mode");
+          interval = setInterval(function() {
+              piezo.play({
+                  song: "C C C C",
+                  beats: 1 / 4,
+                  tempo: 100
+              });
+          }, 3000);
+          setTimeout(function() {
+              clearInterval(interval);
+          }, 20000);
         }
     }
 
@@ -226,25 +243,44 @@ board.on("ready", function() {
                     //Count 0
                     count = 0;
                     dayMode();
+                    console.log("one click");
                 }, timerOneclick);
                 //Else if clicks = 2
             } else if (count === 2) {
                 //Change color on lamps
+                if (!settings) {
+                    console.log('settings har inte hämtats');
+                    return false;
+                }
                 clearTimeout(singelTimer);
                 doubleTimer = setTimeout(function () {
                   count = 0;
-                  changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
-                  changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-                  changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
+                  settings.nightMode.lights.forEach(function(light) {
+                      changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                          on: light.on,
+                          sat: light.sat,
+                          bri: light.bri,
+                          hue: light.hue
+                      });
+                  });
                   console.log("två klick");
                 },timerDblClick);
 
 
               }else if(count === 3){
+                if (!settings) {
+                    console.log('settings har inte hämtats');
+                    return false;
+                }
                 count = 0;
-                changeColor(lamp1, 100, 100, 20000);
-                changeColor(lamp2, 100, 100, 20000);
-                changeColor(lamp3, 100, 100, 20000); //Goldenrod XY Color
+                settings.standard.lights.forEach(function(light) {
+                    changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
+                });
                 clearTimeout(doubleTimer);
                 clearInterval(interval);
                 console.log("tre klick");
@@ -271,28 +307,27 @@ board.on("ready", function() {
       if (count === 1) {
         singelTimer = setTimeout(function(){
           count = 0;
-          turnOff(lamp1);
-          turnOff(lamp2);
-          turnOff(lamp3);
-          console.log("ett click");
+          console.log("One Click Button two");
         },timerOneclick);
       }else if (count === 2) {
         clearTimeout(singelTimer);
         doubleTimer = setTimeout(function () {
           count = 0;
-          changeColor(lamp1, 240, 140, 65280, [0.6621, 0.3023]);
-          changeColor(lamp2, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-          changeColor(lamp3, 100, 60, 65280, [0.5136, 0.4444]); //Goldenrod XY Color
-          console.log("två klick");
+          console.log("två klick btn 2");
         },timerDblClick);
       }else if(count === 3){
         count = 0;
-        changeColor(lamp1, 100, 100, 20000);
-        changeColor(lamp2, 100, 100, 20000);
-        changeColor(lamp3, 100, 100, 20000); //Goldenrod XY Color
+        settings.standard.lights.forEach(function(light) {
+            changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                on: light.on,
+                sat: light.sat,
+                bri: light.bri,
+                hue: light.hue
+            });
+        });
         clearTimeout(doubleTimer);
         clearInterval(interval);
-        console.log("tre klick");
+        console.log("tre klick btn 3");
       }
   }
         //Panick button, when hold down, turn all three lights same color and blinking 30 times, speaker gives
