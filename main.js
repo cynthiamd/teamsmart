@@ -74,9 +74,8 @@ $.ajax({
     data: JSON.stringify(statement),
     contentType: "application/json",
     success: function(response) {
-        //Take the first song in an array!
+        //
         console.log(response);
-        //Api for voicerss
     }
   });
   }
