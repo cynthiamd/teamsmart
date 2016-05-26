@@ -238,29 +238,51 @@ $(document).ready(function() {
         //Clear timer!
     }
 
+    //Set wakeUp with 60sek interval
+    setInterval(awayMode, 60000);
     function awayMode() {
 
-        changeColor(lamp1, {
-            "on": true,
-            "sat": 100,
-            "bri": 100,
-            "hue": 50000
-        }); // cykla i schema
-        changeColor(lamp2, {
-            "on": true,
-            "sat": 100,
-            "bri": 100,
-            "hue": 50000
-        }); // cykla i schema
-        changeColor(lamp3, {
-            "on": true,
-            "sat": 240,
-            "bri": 140,
-            "hue": 65280
-        });
-        console.log("awayMode");
+      //Get current date in milliseconds
+       var nu = new Date();
+       //Get current time 10:28
+       var tid = nu.getHours();
 
-    }
+       if (!settings) {
+           console.log('settings har inte hämtats');
+           return false;
+       }
+
+       //Check if its the right time
+       if (nu.getHours() == 10) {
+
+   settings.awayMode.cycle.lights10.forEach(function(light) {
+               changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                   on: light.on,
+                   sat: light.sat,
+                   bri: light.bri,
+                   hue: light.hue
+               });
+           });
+     console.log("awayMode");
+
+}
+
+           if (nu.getHours() == 11) {
+
+       settings.awayMode.cycle.lights11.forEach(function(light) {
+                   changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                       on: light.on,
+                       sat: light.sat,
+                       bri: light.bri,
+                       hue: light.hue
+                   });
+               });
+         console.log("awayMode");
+
+     }
+
+   }
+
 
     //Set wakeUp with 60sek interval
     setInterval(wakeUp, 60000);
