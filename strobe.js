@@ -130,18 +130,15 @@ board.on("ready", function() {
     }
 
     function turnOff(lamp) {
-            request({
-                method: "PUT",
-                url: HueApi + lamp,
-                json: {
-                    on: false,
-                    transitiontime: 0,
-                    alert: "none",
-                    effect: "none"
-                }
-            }, function(err, res, body) {
-                //console error
-                //  console.log("err?", err);
+            settings.dayMode.lights.forEach(function(
+                light) {
+                changeColor("/lights/" + light.id
+                    .substr(-1) + "/state", {
+                        on: light.on,
+                        sat: light.sat,
+                        bri: light.bri,
+                        hue: light.hue
+                    });
             });
         }
         //Set Daymode with 60sek interval
@@ -156,7 +153,7 @@ board.on("ready", function() {
             var day = now.getDay();
             //Check if its a weekday else its weekend
             if (day !== 0 && day !== 6) {
-                if (now.getHours() == 14 && now.getMinutes() == 10) {
+                if (now.getHours() == 15 && now.getMinutes() == 42) {
                     if (!foundBridge) {
                         console.log('bridge doesnt exist');
                         return;
