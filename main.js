@@ -91,7 +91,7 @@ $(document).ready(function() {
                 //Api for voicerss
             }
         });
- //9438c4b66bb9646f80f8dc3470356264ad444aa8
+        //9438c4b66bb9646f80f8dc3470356264ad444aa8
     }
 
 
@@ -240,50 +240,35 @@ $(document).ready(function() {
     }
 
     //Set wakeUp with 60sek interval
-      function awayMode() {
+    function awayMode() {
 
         //Get current date in milliseconds
-         var nu = new Date();
-         //Get current time 10:28
-         var tid = nu.getHours();
+        var nu = new Date();
+        //Get current time 10:28
+        var tid = nu.getHours();
 
 
-         if (!settings) {
-             console.log('settings har inte hämtats');
-             return false;
-         }
+        if (!settings) {
+            console.log('settings har inte hämtats');
+            return false;
+        }
 
-  var ljus = "lights" + nu.getHours();
+        var ljus = "lights" + nu.getHours();
 
-  window["settings"]["awayMode"]["cycle"][ljus].forEach(function(light) {
-                 changeColor("/lights/" + light.id.substr(-1) + "/state", {
-                     on: light.on,
-                     sat: light.sat,
-                     bri: light.bri,
-                     hue: light.hue
-                 });
-             });
+        window["settings"]["awayMode"]["cycle"][ljus].forEach(function(light) {
+            changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                on: light.on,
+                sat: light.sat,
+                bri: light.bri,
+                hue: light.hue
+            });
+        });
 
-       console.log("awayMode");
-     }
-  setInterval(awayMode, 600000);
+        console.log("awayMode");
+    }
+    setInterval(awayMode, 600000);
 
 
-           if (nu.getHours() == 11) {
-
-       settings.awayMode.cycle.lights11.forEach(function(light) {
-                   changeColor("/lights/" + light.id.substr(-1) + "/state", {
-                       on: light.on,
-                       sat: light.sat,
-                       bri: light.bri,
-                       hue: light.hue
-                   });
-               });
-         console.log("awayMode");
-
-     }
-
-   }
 
 
     //Set wakeUp with 60sek interval
@@ -400,9 +385,6 @@ $(document).ready(function() {
 
     });
 
-    //$( ".show" ).click(function() {
-    //    $(this).children(i).removeClass(fa-angle-right).addClass(fa-angle-down);
-    //});
 
     $(".show").click(function() {
         $(this).children("h3").children("i").toggleClass("fa-angle-right");
