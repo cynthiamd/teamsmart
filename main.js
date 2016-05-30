@@ -1,25 +1,52 @@
-//API for Phillips Hue
+/* 
+ * API URL for Philips Hue
+ */
 var hueURL =
     "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
-//Bedroom
+/* 
+ * Partial API for Philips lights
+ */	
 var lightsURL = "/lights/";
-var lamp1 = "/lights/1/state";
-//Livingroom
-var lamp2 = "/lights/2/state";
-//Hallway
-var lamp3 = "/lights/3/state";
-var lamps = [];
-var isHoldingDown = false;
+/* 
+ * API URL for retreiving light mode settings
+ */
 var jsonURL = "http://xn--paulinehgh-lcb.se/smarthome/json.php";
-var interval;
-var settings = false;
 
+/* 
+ * Lamp nbr 1 = Bedroom
+ */
+var lamp1 = "/lights/1/state";
+/* 
+ * Lamp nbr 2 = Livingroom
+ */
+var lamp2 = "/lights/2/state";
+/* 
+ * Lamp nbr 3 = Hallway
+ */
+var lamp3 = "/lights/3/state";
+/* 
+ * Initial settings value. Valiable holds settings for all modes and lams.
+ */
+var settings = false;
+/* 
+ * Inital value for the arduino button, "hold".
+ */
+var isHoldingDown = false;
+/* 
+ * Variable for the arduino to set a specific time interval for daymode.
+ */
+var interval;
+/*
+ * Function is called from....
+ */
 function getColorInputs(lights)  {
     return lights.map(function(light) {
         return '<span>' + light.id + '</span><input name="' + light.id + '" class="colorPicker jscolor {mode:\'HSV\',position:\'right\'}">';
     }).join("");
 }
-
+/*
+ * Retrive light mode settings from file and assign values to the settings variable.
+ */
 function getSettings() {
     $.ajax({
         url: jsonURL,
@@ -31,18 +58,18 @@ function getSettings() {
         }
     });
 }
-// getSettings();
-
+/*
+ * Duplicate? 
+ */
 $.getJSON(jsonURL, function(json) {
     settings = json;
 });
 
-
-/* FUNKTIONER */
-
-
+/*
+ * Connect to Philips Hue bridge. 
+ */
 $(document).ready(function() {
-    // Gör någonting när ert dokument har laddat klart
+
     $.ajax({
         url: hueURL,
         type: "GET",
@@ -53,7 +80,9 @@ $(document).ready(function() {
         }
     });
 
-    //Söka efter nya lampor!
+	/*
+	 * Connect to Philips Hue lighs in the bridge to search for a lamp.
+	*/
     function searchLamps(id) {
         $.ajax({
             url: hueURL + lightsURL,
@@ -65,7 +94,9 @@ $(document).ready(function() {
             }
         });
     }
-
+	/*
+	 * Connect to Philips Hue lighs in the bridge to retreive a lamp.
+	 */
     function getLamps() {
         $.ajax({
             url: hueURL + lightsURL,
@@ -77,7 +108,11 @@ $(document).ready(function() {
         });
     }
 
-    //Function for changing light on Hue!
+	/*
+	 * Connect to Philips Hue lighs connected to the bridge, to retreive a lamp.
+	 * On succes, new state is returned in the response.
+	 * Pending jibberish to be removed? 9438c4b66bb9646f80f8dc3470356264ad444aa8
+	 */
     function changeColor(lamp, statement) {
 
         $.ajax({
@@ -91,11 +126,13 @@ $(document).ready(function() {
                 //Api for voicerss
             }
         });
-        //9438c4b66bb9646f80f8dc3470356264ad444aa8
     }
 
-
-
+	/*
+	 * Philips Hue call to update light state to turn off a lamp.
+	 * On succes, new state is returned in the response.
+	 * Current implementation does not use this function.
+	 */
     function turnOff(lamp) {
 
         var statement = {
@@ -113,7 +150,10 @@ $(document).ready(function() {
             }
         });
     }
-
+	/*
+	 * Philips Hue call to update light state for a lamp to toggle on off (blink).
+	 * On succes, new state is received.
+	 */
     function alert(lamp) {
         var statement = {
             "on": true,
@@ -134,30 +174,28 @@ $(document).ready(function() {
 
 
 
-    //Set Daymode with 60sek interval
+    /*
+	 * Activate daymode according to interval.
+	 */
     setInterval(dayMode, 60000);
 
+	/*
+	 * Day mode.
+	 * When daymode is active, corresponding settingse are 
+	 * active at different hours depending on if it is a weekday or weekend.
+	 */
     function dayMode() {
 
         if (!settings) {
             console.log('settings har inte hämtats');
             return false;
         }
-
-        //Get current date in milliseconds
         var now = new Date();
-        //Get current time 10:28
         var timefor = now.getHours() + ":" + now.getMinutes();
-        //Get current weekday number 0-6
         var day = now.getDay();
-        //Check if its a weekday else its weekend
+       
         if (day !== 0 && day !== 6) {
             if (now.getHours() == 13 && now.getMinutes() == 36) {
-                //Turn off lamps
-                //turnOff(lamp1);
-                //turnOff(lamp2);
-                //turnOff(lamp3);
-
                 settings.dayMode.lights.forEach(function(light) {
                     changeColor("/lights/" + light.id.substr(-1) + "/state", {
                         on: light.on,
@@ -170,12 +208,6 @@ $(document).ready(function() {
             }
         } else {
             if (now.getHours() == 10 && now.getMinutes() == 15) {
-
-                //Turn off lamps
-                //turnOff(lamp1);
-                //turnOff(lamp2);
-                //turnOff(lamp3);
-
                 settings.dayMode.lights.forEach(function(light) {
                     changeColor("/lights/" + light.id.substr(-1) + "/state", {
                         on: light.on,
@@ -189,17 +221,15 @@ $(document).ready(function() {
         }
     }
 
-    //When you press buttonDown,  change color to all three lamps
+	/*
+	 * Standard mode.
+	 * Currently not implemented for the webb application.
+	 */
     function standard() {
         if (!settings) {
             console.log('settings har inte hämtats');
             return false;
         }
-        //Change color on lamps
-        //changeColor(lamp1, {"on": true, "sat":100, "bri": 100, "hue": 20000});
-        //changeColor(lamp2, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
-        //changeColor(lamp3, {"on": true, "sat": 100, "bri": 100, "hue": 20000});
-
         settings.standard.lights.forEach(function(light) {
             changeColor("/lights/" + light.id.substr(-1) + "/state", {
                 on: light.on,
@@ -209,19 +239,13 @@ $(document).ready(function() {
             });
         });
         clearInterval(interval);
-        console.log("ett klick");
     }
-    //Else if clicks = 2
-
-
-
+	/*
+	 * Night mode.
+	 * Changes lights state according to settings.
+	 */
     function nightMode() {
-        //Change color on lamps
-        //changeColor(lamp1, {"on": true, "sat": 240, "bri": 140, "hue": 65280});
-        //changeColor(lamp2, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-        //changeColor(lamp3, {"on": true, "sat": 100, "bri": 60, "xy": [0.5136, 0.4444]}); //Goldenrod XY Color
-
-
+        
         if (!settings) {
             console.log('settings har inte hämtats');
             return false;
@@ -236,18 +260,15 @@ $(document).ready(function() {
             });
         });
         console.log("två klick");
-
-        //Clear timer!
     }
 
-    //Set wakeUp with 60sek interval
+	/*
+	 * Away mode.
+	 * Changes lights state every hour according to settings shedule.
+	 */
     function awayMode() {
-
-        //Get current date in milliseconds
         var nu = new Date();
-        //Get current time 10:28
         var tid = nu.getHours();
-
 
         if (!settings) {
             console.log('settings har inte hämtats');
@@ -255,7 +276,7 @@ $(document).ready(function() {
         }
 
         var ljus = "lights" + nu.getHours();
-
+		
         window["settings"]["awayMode"]["cycle"][ljus].forEach(function(light) {
             changeColor("/lights/" + light.id.substr(-1) + "/state", {
                 on: light.on,
@@ -270,15 +291,18 @@ $(document).ready(function() {
     setInterval(awayMode, 600000);
 
 
+	/*
+	 * Wake up mode.
+	 * When wake up is active, corresponding settingse are 
+	 * active at different hours depending on if it is a weekday or weekend.
+	 * Wake up light toggles on off every minute.
+	 */
 
-
-    //Set wakeUp with 60sek interval
     setInterval(wakeUp, 60000);
 
     function wakeUp() {
-        //Get current date in milliseconds
+        
         var now = new Date();
-        //Get current time 10:28
         var timefor = now.getHours() + ":" + now.getMinutes();
         //Get current weekday number 0-6
         var day = now.getDay();
@@ -293,7 +317,6 @@ $(document).ready(function() {
         } else {
             if (now.getHours() == 10 && now.getMinutes() == 15) {
 
-                //Alert lamps
                 alert(lamp2);
                 console.log("Wake Up weekends");
             }
@@ -302,16 +325,16 @@ $(document).ready(function() {
         }
 
     }
+	/*
+	 * Panic mode.
+	 * Lamps light toggles on off every minute for a duration of 20000 ms.
+	 */
 
     function panicMode() {
         if (!settings) {
             console.log('settings har inte hämtats');
             return false;
         }
-
-        //changeColor(lamp1, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
-        //changeColor(lamp2, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
-        //changeColor(lamp3, {"on": true, "sat": 255, "bri": 250, "hue": 50000});
 
         settings.panicMode.lights.forEach(function(light) {
             changeColor("/lights/" + light.id.substr(-1) + "/state", {
@@ -328,14 +351,17 @@ $(document).ready(function() {
         alert(lamp3);
 
         interval = setInterval(function () {
-          var audiofile = document.getElementById('audio')
+          var audiofile = document.getElementById('audio');
           audiofile.play();
         }, 2000);
         setTimeout(function() {
             clearInterval(interval);
         }, 20000);
     }
-
+	
+	/*
+	 * Adding listeners for the light mode icons.
+	 */
     $("#daymode").click(function() {
         dayMode();
     });
@@ -360,13 +386,18 @@ $(document).ready(function() {
         panicMode();
     });
 
+	/*
+	 * Adding listeners for the show slidebar class.
+	 */
     $(".show").click(function() {
         $(this).next(".slidetoggle").slideToggle("slow", function() {
             // Animation complete.
         });
     });
 
-    //search for new lamps!
+    /*
+	 * Adding listeners for the facebook icon.
+	 */
 
     $("#facebook").click(function() {
         var id = prompt("Enter your Device id:");
@@ -394,7 +425,10 @@ $(document).ready(function() {
 
     });
 
-
+	/*
+	 * Adding listeners for....
+	 */
+	 
     $(".show").click(function() {
         $(this).children("h3").children("i").toggleClass("fa-angle-right");
         $(this).children("h3").children("i").toggleClass("fa-angle-down");
@@ -403,6 +437,10 @@ $(document).ready(function() {
     // console.log(inputsForDayMode);
     //
     // $("#myform").append(inputsForDayMode);
+	
+	/*
+	 * Adding listeners for the form.
+	 */
     $("#myform").submit(function(e) {
         console.log(e.target.elements);
         e.preventDefault();
