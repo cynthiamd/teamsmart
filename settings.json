@@ -41,8 +41,8 @@
 		"active": false,
 		"button1": "",
 		"button2": "",
-		"hours": "",
-		"minute": "",
+		"hours": "13",
+		"minute": "0",
 		"lights": [{
 				"id": "lamp1",
 				"on": false,
@@ -97,8 +97,8 @@
 		"active": false,
 		"button1": "",
 		"button2": "",
-		"hours": "",
-		"minute": "",
+		"hours": "10",
+		"minute": "0",
 		"mode": "",
 		"lights": [{
 				"id": "lamp1",
@@ -122,7 +122,7 @@
 
 		]
 	},
-	
+
 	"panicMode": {
 		"active": false,
 		"button1": "",

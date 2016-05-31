@@ -33,8 +33,11 @@
             </div>
             <div class="slidetoggle" id="daypick">
 
-                <form id="myform" action="#">
-                    <input class="colorPicker" type="submit">
+                <form id="dayMode" action="#">
+                  <input type="text" name="hour" placeholder="Hours">
+                  <input type="text" name="minute" placeholder="Minutes">
+                  <input type="submit">
+                    <!-- <input class="colorPicker" type="submit"> -->
                 </form>
             </div>
 
@@ -43,6 +46,11 @@
                 <h3><i class="fa fa-angle-right fa-lg"></i>  NightMode</h3>
             </div>
             <div class="slidetoggle" id="nightpick">
+              <form id="nightMode" action="#">
+                <!-- <input name="colorPicker" class="jscolor {mode:'HSV',position:'right'}"> -->
+                <input type="submit" value="Skicka">
+              </form>
+
             </div>
 
 
@@ -71,6 +79,12 @@
                 <h3><i class="fa fa-angle-right fa-lg"></i>  Wakeup</h3>
             </div>
             <div class="slidetoggle" id="wakeuppick">
+              <form id="wakeUp" action="#">
+                <input type="text" name="hour" placeholder="Hours">
+                <input type="text" name="minute" placeholder="Minutes">
+                <input type="submit">
+                  <!-- <input class="colorPicker" type="submit"> -->
+              </form>
             </div>
 
 
