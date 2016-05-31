@@ -88,16 +88,44 @@ function setupColorInputFields(settings) {
     var inputsForNightMode = getColorInputs(settings.nightMode.lights, 'nightMode');
     $("#nightMode").prepend(inputsForNightMode);
 
-
-    // activate color inputs
     jscolor.installByClassName("jscolor");
+    // activate color inputs
+
 
     // set default color of input fields
     settings.nightMode.lights.forEach(function(light) {
         var hsv = lightHueToHSV(light);
         document.getElementById("nightMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
-    });
+          });
+
+        var inputsForStandardMode = getColorInputs(settings.standard.lights, 'standardMode');
+        $("#standardMode").prepend(inputsForStandardMode);
+
+    jscolor.installByClassName("jscolor");
+
+        // set default color of input fields
+        settings.standard.lights.forEach(function(light) {
+            var hsv = lightHueToHSV(light);
+            document.getElementById("standardMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
+        });
+
 }
+
+// function setupColorInputFields(settings) {
+//     // Night Mode
+//     var inputsForStandardMode = getColorInputs(settings.standard.lights, 'standardMode');
+//     $("#standardMode").prepend(inputsForStandardMode);
+//
+//
+//     // activate color inputs
+//     jscolor.installByClassName("jscolor");
+//
+//     // set default color of input fields
+//     settings.standard.lights.forEach(function(light) {
+//         var hsv = lightHueToHSV(light);
+//         document.getElementById("standardMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
+//     });
+// }
 
 function HSVtoHue(hsv) {
     return {
@@ -559,6 +587,30 @@ $(document).ready(function() {
 
         // update current settings with new lights
         settings.nightMode.lights = newLampSettings;
+        // save settings to server
+        saveSettings(settings);
+    });
+
+    $("#standardMode").submit(function(e) {
+
+        e.preventDefault();
+        console.log("skickade formuläret");
+
+        // create new array from old settings
+        var newLampSettings = settings.standard.lights.map(function(light) {
+            var newHue = HSVtoHue(e.target.elements[light.id].jscolor.hsv);
+
+            light.sat = newHue.sat;
+            light.bri = newHue.bri;
+            light.hue = newHue.hue;
+
+            return light;
+        });
+
+        console.log(newLampSettings);
+
+        // update current settings with new lights
+        settings.standard.lights = newLampSettings;
         // save settings to server
         saveSettings(settings);
     });
