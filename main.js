@@ -367,7 +367,7 @@ $(document).ready(function() {
                 hue: light.hue
             });
         });
-        console.log("två klick");
+        console.log("NightMode");
     }
 
     /*
@@ -537,7 +537,7 @@ $(document).ready(function() {
      */
 
     $("#search").click(function() {
-        var id = prompt("Enter your Device id:");
+        var id = prompt("Enter the serial number of the lamp: \n(printed on lamp)");
         var newID = {
             "deviceid": [id]
         };

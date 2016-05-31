@@ -90,10 +90,28 @@ article {
 
 .slidetoggle {
     width: 100%;
-    height: 30px;
+    height: 100%;
     background-color: lightgray;
     display: none;
     padding: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .slidetoggle {
+        height: 100%;
+    }
+
+    .slidetoggle form {
+        width: 30%;
+        margin: 0 auto;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .slidetoggle form {
+        width: 50%;
+        margin: 0 auto;
+    }
 }
 
 button {
@@ -165,6 +183,24 @@ h3 {
 
 #settingsheading, .fa-angle-right {
     margin-left: 10px;
+}
+
+input[type=submit] {
+    background-color: #322f2f;
+    color: white;
+    width: 100px;
+    height: 20px;
+    border-radius: 5px;
+}
+
+input {
+    border-radius: 5px;
+}
+
+span {
+    margin-left: 5px;
+    margin-right: 5px;
+
 }
 
 @media only screen and (max-width: 400px) {
