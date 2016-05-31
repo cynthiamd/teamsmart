@@ -255,9 +255,8 @@ $(document).ready(function() {
     setInterval(dayMode, 60000);
 
     /*
-     * Day mode.
-     * When daymode is active, corresponding settingse are
-     * active at different hours depending on if it is a weekday or weekend.
+     * Day mode settings.
+     * Update settings for lamp colors in daymode.
      */
     $("#dayMode").submit(function(e) {
         e.preventDefault();
@@ -272,16 +271,63 @@ $(document).ready(function() {
         // dayMode(hour, minute);
         saveSettings(settings);
     });
+	
+	/*
+     * Night mode settings.
+     * Update settings for time in wake up mode.
+     */
 
+    $("#nightMode").submit(function(e) {
 
+        e.preventDefault();
+        console.log("skickade formuläret");
+
+        // create new array from old settings
+        var newLampSettings = settings.nightMode.lights.map(function(light) {
+            var newHue = HSVtoHue(e.target.elements[light.id].jscolor.hsv);
+
+            light.sat = newHue.sat;
+            light.bri = newHue.bri;
+            light.hue = newHue.hue;
+
+            return light;
+        });
+
+        console.log(newLampSettings);
+        // update current settings with new lights
+        settings.nightMode.lights = newLampSettings;
+        // save settings to server
+        saveSettings(settings);
+    });
+	
+	/*
+     * Wake up settings.
+     * Update settings for time in wake up mode.
+     */
+    $("#wakeUp").submit(function(e) {
+        e.preventDefault();
+
+        var hour = e.target.elements.hour.value;
+        var minute = e.target.elements.minute.value;
+
+        console.log('settings before change', settings.wakeUp);
+        settings.wakeUp.hours = hour;
+        settings.wakeUp.minute = minute;
+        console.log('settings after change', settings.wakeUp);
+        // dayMode(hour, minute);
+        saveSettings(settings);
+    });
+
+	/*
+     * Day mode.
+     * When daymode is active, corresponding settingse are
+     * active at different hours depending on if it is a weekday or weekend.
+     */
     function dayMode() {
-
-
         if (!settings) {
             console.log('settings har inte hämtats');
             return false;
         }
-
         //Get current date in milliseconds
         var now = new Date();
         //Get current time 10:28
@@ -384,32 +430,14 @@ $(document).ready(function() {
         console.log("awayMode");
     }
     setInterval(awayMode, 600000);
-
-
-    /*
+    setInterval(wakeUp, 60000);
+	
+	/*
      * Wake up mode.
      * When wake up is active, corresponding settingse are
      * active at different hours depending on if it is a weekday or weekend.
      * Wake up light toggles on off every minute.
      */
-
-    setInterval(wakeUp, 60000);
-
-    $("#wakeUp").submit(function(e) {
-        e.preventDefault();
-
-        var hour = e.target.elements.hour.value;
-        var minute = e.target.elements.minute.value;
-
-        console.log('settings before change', settings.wakeUp);
-        settings.wakeUp.hours = hour;
-        settings.wakeUp.minute = minute;
-        console.log('settings after change', settings.wakeUp);
-        // dayMode(hour, minute);
-        saveSettings(settings);
-    });
-
-
     function wakeUp() {
         //Get current date in milliseconds
         var now = new Date();
@@ -549,34 +577,6 @@ $(document).ready(function() {
     $(".show").click(function() {
         $(this).children("h3").children("i").toggleClass("fa-angle-right");
         $(this).children("h3").children("i").toggleClass("fa-angle-down");
-    });
-
-    /*
-     * Add event for Nightmode, change color in settings.html
-     */
-
-    $("#nightMode").submit(function(e) {
-
-        e.preventDefault();
-        console.log("skickade formuläret");
-
-        // create new array from old settings
-        var newLampSettings = settings.nightMode.lights.map(function(light) {
-            var newHue = HSVtoHue(e.target.elements[light.id].jscolor.hsv);
-
-            light.sat = newHue.sat;
-            light.bri = newHue.bri;
-            light.hue = newHue.hue;
-
-            return light;
-        });
-
-        console.log(newLampSettings);
-
-        // update current settings with new lights
-        settings.nightMode.lights = newLampSettings;
-        // save settings to server
-        saveSettings(settings);
     });
 
     /*
