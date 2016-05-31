@@ -1,8 +1,7 @@
 /*
  * API URL for Philips Hue
  */
-var hueURL =
-    "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
+var hueURL = "http://192.168.251.185/api/28dd08062078de67270d8b6ab5b3f9b";
 /*
  * Partial API for Philips lights
  */
@@ -271,7 +270,7 @@ $(document).ready(function() {
         // dayMode(hour, minute);
         saveSettings(settings);
     });
-	
+
 	/*
      * Night mode settings.
      * Update settings for time in wake up mode.
@@ -299,7 +298,7 @@ $(document).ready(function() {
         // save settings to server
         saveSettings(settings);
     });
-	
+
 	/*
      * Wake up settings.
      * Update settings for time in wake up mode.
@@ -431,7 +430,7 @@ $(document).ready(function() {
     }
     setInterval(awayMode, 600000);
     setInterval(wakeUp, 60000);
-	
+
 	/*
      * Wake up mode.
      * When wake up is active, corresponding settingse are
