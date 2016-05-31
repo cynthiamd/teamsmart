@@ -159,7 +159,7 @@ h3 {
 
 /* fade to unused content*/
 
-#calendar, #calendar + h3, #facebook, #facebook + h3{
+#calendar, #calendar + h3, #facebook, #facebook + h3, #socialsetting, #socialpick, #fullsecsetting, #fullpick, #calendarpick, #calendarsetting, #panicsetting, #panicpick {
     opacity: 0.2;
 }
 
