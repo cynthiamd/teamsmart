@@ -61,7 +61,7 @@ function getSettings() {
     });
 }
 /*
- * Duplicate?
+ * Get Json from jasonURL and add color settings from settings.json
  */
 
 $.getJSON(jsonURL, function(json) {
@@ -69,6 +69,10 @@ $.getJSON(jsonURL, function(json) {
     setupColorInputFields(settings);
 
 });
+
+/*
+  Save our settings color settings!
+ */
 
 function saveSettings(settings) {
     $.ajax({
@@ -80,6 +84,10 @@ function saveSettings(settings) {
         }
     });
 }
+
+/*
+ * function to set up color settings from fields i settings.html
+ */
 
 function setupColorInputFields(settings) {
     // Night Mode
@@ -109,21 +117,9 @@ function setupColorInputFields(settings) {
 
 }
 
-// function setupColorInputFields(settings) {
-//     // Night Mode
-//     var inputsForStandardMode = getColorInputs(settings.standard.lights, 'standardMode');
-//     $("#standardMode").prepend(inputsForStandardMode);
-//
-//
-//     // activate color inputs
-//     jscolor.installByClassName("jscolor");
-//
-//     // set default color of input fields
-//     settings.standard.lights.forEach(function(light) {
-//         var hsv = lightHueToHSV(light);
-//         document.getElementById("standardMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
-//     });
-// }
+/*
+ * function to convert HSV to Hue
+ */
 
 function HSVtoHue(hsv) {
     return {
@@ -132,6 +128,10 @@ function HSVtoHue(hsv) {
         hue: Math.round((hsv[0] * 65536) / 360)
     };
 }
+
+/*
+ * Function to convert HSV to Hue
+ */
 
 function lightHueToHSV(light) {
     return [
@@ -544,12 +544,17 @@ $(document).ready(function() {
     });
 
     /*
-     * Adding listeners for....
+     * Adding listeners for show
      */
     $(".show").click(function() {
         $(this).children("h3").children("i").toggleClass("fa-angle-right");
         $(this).children("h3").children("i").toggleClass("fa-angle-down");
     });
+
+    /*
+     * Add event for Nightmode, change color in settings.html
+     */
+
     $("#nightMode").submit(function(e) {
 
         e.preventDefault();
@@ -573,6 +578,10 @@ $(document).ready(function() {
         // save settings to server
         saveSettings(settings);
     });
+
+    /*
+     * Add event for Nightmode, change color in settings.html
+     */
 
     $("#standardMode").submit(function(e) {
 
