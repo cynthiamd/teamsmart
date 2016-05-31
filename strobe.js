@@ -365,7 +365,7 @@ board.on("ready", function() {
             if (arr[i] == ljus) {
               //save it to lol
                 var lightsForaway = arr[i];
-                console.log(lol);
+                console.log(lightsForaway);
             }
         }
         settings.awayMode.cycle[lightsForaway].forEach(function(light) {
