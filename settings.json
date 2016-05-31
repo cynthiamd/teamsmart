@@ -1,38 +1,38 @@
-{  
-   "lamps":[  
-      {  
+{
+   "lamps":[
+      {
          "id":"lamp1",
          "name":"Bedroom"
       },
-      {  
+      {
          "id":"lamp2",
          "name":"Livingroom"
       },
-      {  
+      {
          "id":"lamp3",
          "name":"Halllway"
       }
    ],
-   "standard":{  
+   "standard":{
       "active":false,
       "button1":"",
       "button2":"",
-      "lights":[  
-         {  
+      "lights":[
+         {
             "id":"lamp1",
             "on":true,
             "sat":100,
             "bri":100,
             "hue":40000
          },
-         {  
+         {
             "id":"lamp2",
             "on":true,
             "sat":100,
             "bri":100,
             "hue":40000
          },
-         {  
+         {
             "id":"lamp3",
             "on":true,
             "sat":100,
@@ -41,28 +41,28 @@
          }
       ]
    },
-   "dayMode":{  
+   "dayMode":{
       "active":false,
       "button1":"",
       "button2":"",
       "hours":"13",
       "minute":"0",
-      "lights":[  
-         {  
+      "lights":[
+         {
             "id":"lamp1",
             "on":false,
             "sat":100,
             "bri":100,
             "hue":40000
          },
-         {  
+         {
             "id":"lamp2",
             "on":false,
             "sat":100,
             "bri":100,
             "hue":40000
          },
-         {  
+         {
             "id":"lamp3",
             "on":false,
             "sat":100,
@@ -71,26 +71,26 @@
          }
       ]
    },
-   "nightMode":{  
+   "nightMode":{
       "active":false,
       "button1":"",
       "button2":"",
-      "lights":[  
-         {  
+      "lights":[
+         {
             "id":"lamp1",
             "on":false,
             "sat":240,
             "bri":140,
             "hue":65280
          },
-         {  
+         {
             "id":"lamp2",
             "on":false,
             "sat":240,
             "bri":140,
             "hue":65280
          },
-         {  
+         {
             "id":"lamp3",
             "on":true,
             "sat":240,
@@ -99,29 +99,29 @@
          }
       ]
    },
-   "wakeUp":{  
+   "wakeUp":{
       "active":false,
       "button1":"",
       "button2":"",
       "hours":"10",
       "minute":"0",
       "mode":"",
-      "lights":[  
-         {  
+      "lights":[
+         {
             "id":"lamp1",
             "on":true,
             "sat":100,
             "bri":60,
             "hue":10000
          },
-         {  
+         {
             "id":"lamp2",
             "on":false,
             "sat":100,
             "bri":60,
             "hue":20000
          },
-         {  
+         {
             "id":"lamp3",
             "on":false,
             "sat":100,
@@ -130,15 +130,15 @@
          }
       ]
    },
-   "panicMode":{  
+   "panicMode":{
       "active":false,
       "button1":"",
       "button2":"",
       "hours":"",
       "minute":"",
       "mode":"",
-      "lights":[  
-         {  
+      "lights":[
+         {
             "id":"lamp1",
             "on":true,
             "sat":255,
@@ -146,7 +146,7 @@
             "hue":65280,
             "alert":"lselect"
          },
-         {  
+         {
             "id":"lamp2",
             "on":true,
             "sat":255,
@@ -154,7 +154,7 @@
             "hue":65280,
             "alert":"lselect"
          },
-         {  
+         {
             "id":"lamp3",
             "on":true,
             "sat":255,
@@ -164,27 +164,27 @@
          }
       ]
    },
-   "awayMode":{  
+   "awayMode":{
       "active":false,
       "button1":"",
       "button2":"",
-      "cycle":{  
-         "lights0":[  
-            {  
+      "cycle":{
+         "lights0":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -192,22 +192,22 @@
                "hue":65280
             }
          ],
-         "lights1":[  
-            {  
+         "lights1":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -215,22 +215,22 @@
                "hue":65280
             }
          ],
-         "lights2":[  
-            {  
+         "lights2":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -238,22 +238,22 @@
                "hue":65280
             }
          ],
-         "lights3":[  
-            {  
+         "lights3":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -261,22 +261,22 @@
                "hue":65280
             }
          ],
-         "lights4":[  
-            {  
+         "lights4":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -284,22 +284,22 @@
                "hue":65280
             }
          ],
-         "lights5":[  
-            {  
+         "lights5":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -307,22 +307,22 @@
                "hue":65280
             }
          ],
-         "lights6":[  
-            {  
+         "lights6":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -330,22 +330,22 @@
                "hue":65280
             }
          ],
-         "lights7":[  
-            {  
+         "lights7":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":60,
                "hue":10000
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":100,
                "bri":60,
                "hue":20000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -353,22 +353,22 @@
                "hue":65280
             }
          ],
-         "lights8":[  
-            {  
+         "lights8":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -376,22 +376,22 @@
                "hue":65280
             }
          ],
-         "lights9":[  
-            {  
+         "lights9":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -399,22 +399,22 @@
                "hue":65280
             }
          ],
-         "lights10":[  
-            {  
+         "lights10":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -422,22 +422,22 @@
                "hue":65280
             }
          ],
-         "lights11":[  
-            {  
+         "lights11":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -445,22 +445,22 @@
                "hue":65280
             }
          ],
-         "lights12":[  
-            {  
+         "lights12":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -468,22 +468,22 @@
                "hue":65280
             }
          ],
-         "lights13":[  
-            {  
+         "lights13":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -491,22 +491,22 @@
                "hue":65280
             }
          ],
-         "lights14":[  
-            {  
+         "lights14":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -514,45 +514,45 @@
                "hue":65280
             }
          ],
-         "lights15":[  
-            {  
+         "lights15":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
-               "id":"lamp3",
-               "on":true,
-               "sat":100,
-               "bri":100,
-               "hue":65280
+            {
+                "id":"lamp3",
+                "on":true,
+                "sat":240,
+                "bri":140,
+                "hue":65280
             }
          ],
-         "lights16":[  
-            {  
+         "lights16":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -560,22 +560,22 @@
                "hue":65280
             }
          ],
-         "lights17":[  
-            {  
+         "lights17":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -583,22 +583,22 @@
                "hue":65280
             }
          ],
-         "lights18":[  
-            {  
+         "lights18":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -606,22 +606,22 @@
                "hue":65280
             }
          ],
-         "lights19":[  
-            {  
+         "lights19":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -629,22 +629,22 @@
                "hue":65280
             }
          ],
-         "lights20":[  
-            {  
+         "lights20":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -652,22 +652,22 @@
                "hue":65280
             }
          ],
-         "lights21":[  
-            {  
+         "lights21":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp2",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -675,22 +675,22 @@
                "hue":65280
             }
          ],
-         "lights22":[  
-            {  
+         "lights22":[
+            {
                "id":"lamp1",
                "on":true,
                "sat":100,
                "bri":100,
                "hue":12750
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":100,
                "bri":100,
                "hue":40000
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
@@ -698,22 +698,22 @@
                "hue":65280
             }
          ],
-         "lights23":[  
-            {  
+         "lights23":[
+            {
                "id":"lamp1",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp2",
                "on":false,
                "sat":240,
                "bri":140,
                "hue":65280
             },
-            {  
+            {
                "id":"lamp3",
                "on":true,
                "sat":240,
