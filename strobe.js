@@ -153,7 +153,7 @@ board.on("ready", function() {
             var day = now.getDay();
             //Check if its a weekday else its weekend
             if (day !== 0 && day !== 6) {
-                if (now.getHours() == 15 && now.getMinutes() == 42) {
+                if (now.getHours() == settings.dayMode.hours && now.getMinutes() == settings.dayMode.minute) {
                     if (!foundBridge) {
                         console.log('bridge doesnt exist');
                         return;
@@ -165,7 +165,7 @@ board.on("ready", function() {
                     console.log("Daymode");
                 }
             } else {
-                if (now.getHours() == 10 && now.getMinutes() == 15) {
+                if (now.getHours() == settings.dayMode.hours && now.getMinutes() == settings.dayMode.minute) {
                     if (!foundBridge) {
                         console.log('bridge doesnt exist');
                         return;
