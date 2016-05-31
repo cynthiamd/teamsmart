@@ -1,93 +1,91 @@
 <!doctype html>
 <html>
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <script src="https://use.fontawesome.com/8a80e236fb.js"></script>
-        <meta charset="utf-8">
-        <title>Smart Home app</title>
-        <link href='https://fonts.googleapis.com/css?family=Rock+Salt|Lato:400,700,900,300' rel='stylesheet' type='text/css'>
-        <link href="styles.css" type="text/css" rel="stylesheet">
-
-    </head>
-    <body>
-        <div id="wrapper">
-            <header>
-                <nav>
-                    <div id="logo">
-                        <h1>HueLux</h1>
-                    </div>
-                    <div id="settings">
-                        <a href="settings.html"><button><i class="fa fa-cog fa-3x"></i></button></a>
-                    </div>
-                </nav>
-            </header>
-                <main>
-                    <div class="flexbox">
-                        <article class="mode">
-                            <button id="daymode"><i class="fa fa-sun-o fa-3x"></i></button>
-                            <h3>DayMode</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="nightmode"><i class="fa fa-moon-o fa-3x"></i></button>
-                            <h3>NightMode</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="fullsecurity"><i class="fa fa-lock fa-3x"></i></button>
-                            <h3>AwayMode</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="standard"><i class="fa fa-lightbulb-o fa-3x"></i></button>
-                            <h3>Standard</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="facebook"><i class="fa fa-facebook fa-3x"></i></button>
-                            <h3>Facebook</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="wakeup"><i class="fa fa-bell fa-3x"></i></button>
-                            <h3>Wakeup</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="calendar"><i class="fa fa-calendar fa-3x"></i></button>
-                            <h3>Calendar</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="search"><i class="fa fa-search fa-3x"></i></button>
-                            <h3>Search for new lights</h3>
-                        </article>
-                        <article class="mode">
-                            <button id="panic"><i class="fa fa-ambulance fa-3x"></i></button>
-                            <h3>PanicMode</h3>
-                            <audio id="audio" src="http://www.soundjay.com/button/beep-03.mp3" autostart="false" ></audio>
-                        </article>
-
-                        <article class="mode">
-                        </article>
-                        <article class="mode phone">
-                        </article>
-                        <article class="mode phone">
-                        </article>
-                        <article class="mode phone">
-                        </article>
-                        <article class="mode phone ipad">
-                        </article>
-                        <article class="mode phone ipad">
-                        </article>
-                        <article class="mode phone ipad">
-                        </article>
-
-                    </div>
-                </main>
-            <footer>
-                <h3>A smarthome project made by Malmö Högskola</h3>
-            </footer>
-        </div> <!--end wrapper -->
-        <!--
-        Observera att vi placerar alltid <script>
-        precis innan vi stänger <body>, dvs. sist.
-        -->
-        <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-        <script src="jscolor/jscolor.js"></script>
-        <script src="main.js"></script>
-    </body>
+   <head>
+      <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+      <script src="https://use.fontawesome.com/8a80e236fb.js"></script>
+      <meta charset="utf-8">
+      <title>Smart Home app</title>
+      <link href='https://fonts.googleapis.com/css?family=Rock+Salt|Lato:400,700,900,300' rel='stylesheet' type='text/css'>
+      <link href="styles.css" type="text/css" rel="stylesheet">
+   </head>
+   <body>
+      <div id="wrapper">
+         <header>
+            <nav>
+               <div id="logo">
+                  <h1>HueLux</h1>
+               </div>
+               <div id="settings">
+                  <a href="settings.html"><button><i class="fa fa-cog fa-3x"></i></button></a>
+               </div>
+            </nav>
+         </header>
+         <main>
+            <div class="flexbox">
+               <article class="mode">
+                  <button id="daymode"><i class="fa fa-sun-o fa-3x"></i></button>
+                  <h3>DayMode</h3>
+               </article>
+               <article class="mode">
+                  <button id="nightmode"><i class="fa fa-moon-o fa-3x"></i></button>
+                  <h3>NightMode</h3>
+               </article>
+               <article class="mode">
+                  <button id="fullsecurity"><i class="fa fa-lock fa-3x"></i></button>
+                  <h3>AwayMode</h3>
+               </article>
+               <article class="mode">
+                  <button id="standard"><i class="fa fa-lightbulb-o fa-3x"></i></button>
+                  <h3>Standard</h3>
+               </article>
+               <article class="mode">
+                  <button id="facebook"><i class="fa fa-facebook fa-3x"></i></button>
+                  <h3>Facebook</h3>
+               </article>
+               <article class="mode">
+                  <button id="wakeup"><i class="fa fa-bell fa-3x"></i></button>
+                  <h3>Wakeup</h3>
+               </article>
+               <article class="mode">
+                  <button id="calendar"><i class="fa fa-calendar fa-3x"></i></button>
+                  <h3>Calendar</h3>
+               </article>
+               <article class="mode">
+                  <button id="search"><i class="fa fa-search fa-3x"></i></button>
+                  <h3>Search for new lights</h3>
+               </article>
+               <article class="mode">
+                  <button id="panic"><i class="fa fa-ambulance fa-3x"></i></button>
+                  <h3>PanicMode</h3>
+                  <audio id="audio" src="http://www.soundjay.com/button/beep-03.mp3" autostart="false" ></audio>
+               </article>
+               <article class="mode">
+               </article>
+               <article class="mode phone">
+               </article>
+               <article class="mode phone">
+               </article>
+               <article class="mode phone">
+               </article>
+               <article class="mode phone ipad">
+               </article>
+               <article class="mode phone ipad">
+               </article>
+               <article class="mode phone ipad">
+               </article>
+            </div>
+         </main>
+         <footer>
+            <h3>A smarthome project made by Malmö Högskola</h3>
+         </footer>
+      </div>
+      <!--end wrapper -->
+      <!--
+         Observera att vi placerar alltid <script>
+         precis innan vi stänger <body>, dvs. sist.
+         -->
+      <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+      <script src="jscolor/jscolor.js"></script>
+      <script src="main.js"></script>
+   </body>
 </html>
