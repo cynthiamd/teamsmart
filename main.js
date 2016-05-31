@@ -64,8 +64,6 @@ function getSettings() {
  * Duplicate?
  */
 
-
-
 $.getJSON(jsonURL, function(json) {
     settings = json;
     setupColorInputFields(settings);
@@ -293,11 +291,6 @@ $(document).ready(function() {
         //Check if its a weekday else its weekend
         if (day !== 0 && day !== 6) {
             if (now.getHours() == settings.dayMode.hours && now.getMinutes() == settings.dayMode.minute) {
-                //Turn off lamps
-                //turnOff(lamp1);
-                //turnOff(lamp2);
-                //turnOff(lamp3);
-
                 settings.dayMode.lights.forEach(function(light) {
                     changeColor("/lights/" + light.id.substr(-1) + "/state", {
                         on: light.on,
@@ -310,12 +303,6 @@ $(document).ready(function() {
             }
         } else {
             if (now.getHours() == settings.dayMode.hours && now.getMinutes() == settings.dayMode.minute) {
-
-                //Turn off lamps
-                //turnOff(lamp1);
-                //turnOff(lamp2);
-                //turnOff(lamp3);
-
                 settings.dayMode.lights.forEach(function(light) {
                     changeColor("/lights/" + light.id.substr(-1) + "/state", {
                         on: light.on,
@@ -466,7 +453,6 @@ $(document).ready(function() {
      * Panic mode.
      * Lamps light toggles on off every minute for a duration of 20000 ms.
      */
-
     function panicMode() {
         if (!settings) {
             console.log('settings har inte hämtats');
@@ -535,7 +521,6 @@ $(document).ready(function() {
     /*
      * Adding listeners for search.
      */
-
     $("#search").click(function() {
         var id = prompt("Enter the serial number of the lamp: \n(printed on lamp)");
         var newID = {
@@ -545,7 +530,6 @@ $(document).ready(function() {
         searchLamps(newID);
 
         var count = 20;
-
         var counter = setInterval(timer, 1000); //1000 will  run it every 1 second
 
         function timer() {
@@ -562,7 +546,6 @@ $(document).ready(function() {
     /*
      * Adding listeners for....
      */
-
     $(".show").click(function() {
         $(this).children("h3").children("i").toggleClass("fa-angle-right");
         $(this).children("h3").children("i").toggleClass("fa-angle-down");
