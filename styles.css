@@ -84,9 +84,6 @@ article {
     margin: 10px 20px;
 }
 
-.mode {
-    /*display: inline-block;*/
-}
 
 .slidetoggle {
     width: 100%;
@@ -153,10 +150,6 @@ button:hover {
     color: white;
 }
 
-i {
-    /*padding-top: 5px;*/
-}
-
 /* Font changes */
 
 h1 {
@@ -166,7 +159,7 @@ h1 {
     margin: 5px;
 }
 
-h2{
+h2 {
     color: white;
 }
 
@@ -175,13 +168,25 @@ h3 {
     color: white;
 }
 
-/* fade to unused content*/
+/* Fade to unused content*/
 
-#calendar, #calendar + h3, #facebook, #facebook + h3, #socialsetting, #socialpick, #fullsecsetting, #fullpick, #calendarpick, #calendarsetting, #panicsetting, #panicpick {
+#calendar, 
+#calendar + h3, 
+#facebook, 
+#facebook + h3, 
+#socialsetting, 
+#socialpick, 
+#fullsecsetting, 
+#fullpick, 
+#calendarpick, 
+#calendarsetting, 
+#panicsetting, 
+#panicpick {
     opacity: 0.2;
 }
 
-#settingsheading, .fa-angle-right {
+#settingsheading, 
+.fa-angle-right {
     margin-left: 10px;
 }
 
