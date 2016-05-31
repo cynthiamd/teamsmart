@@ -322,9 +322,9 @@
 				"hue": 20000
 			}, {
 				"id": "lamp3",
-				"on": false,
+				"on": true,
 				"sat": 100,
-				"bri": 60,
+				"bri": 100,
 				"hue": 65280
 			}
 
@@ -406,7 +406,7 @@
 				"hue": 40000
 			}, {
 				"id": "lamp3",
-				"on": false,
+				"on": true,
 				"sat": 100,
 				"bri": 100,
 				"hue": 65280
@@ -427,7 +427,7 @@
 				"hue": 40000
 			}, {
 				"id": "lamp3",
-				"on": false,
+				"on": true,
 				"sat": 100,
 				"bri": 100,
 				"hue": 65280
@@ -448,7 +448,7 @@
 				"hue": 40000
 			}, {
 				"id": "lamp3",
-				"on": false,
+				"on": true,
 				"sat": 100,
 				"bri": 100,
 				"hue": 65280
