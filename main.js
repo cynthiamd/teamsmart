@@ -43,7 +43,7 @@ var interval;
  */
  function getColorInputs(lights, mode)  {
      return lights.map(function(light) {
-         return '<span>' + light.id + '</span><input id="' + mode + '-' + light.id + '" name="' + light.id + '" class="colorPicker jscolor">';
+         return '<span>' + light.name + '</span><input id="' + mode + '-' + light.id + '" name="' + light.id + '" class="colorPicker jscolor">';
      }).join("");
  }
 /*

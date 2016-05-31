@@ -10,7 +10,7 @@
       },
       {
          "id":"lamp3",
-         "name":"Halllway"
+         "name":"Hallway"
       }
    ],
    "standard":{
@@ -18,8 +18,9 @@
       "button1":"",
       "button2":"",
       "lights":[
-         {
+          {
             "id":"lamp1",
+            "name": "Bedroom",
             "on":true,
             "sat":100,
             "bri":100,
@@ -27,6 +28,7 @@
          },
          {
             "id":"lamp2",
+            "name": "Livingroom",
             "on":true,
             "sat":100,
             "bri":100,
@@ -34,6 +36,7 @@
          },
          {
             "id":"lamp3",
+            "name": "Hallway",
             "on":true,
             "sat":100,
             "bri":100,
@@ -76,8 +79,9 @@
       "button1":"",
       "button2":"",
       "lights":[
-         {
+          {
             "id":"lamp1",
+            "name": "Bedroom",
             "on":false,
             "sat":240,
             "bri":140,
@@ -85,6 +89,7 @@
          },
          {
             "id":"lamp2",
+            "name": "Livingroom",
             "on":false,
             "sat":240,
             "bri":140,
@@ -92,6 +97,7 @@
          },
          {
             "id":"lamp3",
+            "name": "Hallway",
             "on":true,
             "sat":240,
             "bri":140,
