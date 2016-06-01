@@ -38,13 +38,13 @@ var isHoldingDown = false;
  */
 var interval;
 /*
- * Function is called from....
+ * Returns the current color settings for the lamps.
  */
- function getColorInputs(lights, mode)  {
-     return lights.map(function(light) {
-         return '<span>' + light.name + '</span><input id="' + mode + '-' + light.id + '" name="' + light.id + '" class="colorPicker jscolor">';
-     }).join("");
- }
+function getColorInputs(lights, mode)  {
+    return lights.map(function(light) {
+        return '<span>' + light.id + '</span><input id="' + mode + '-' + light.id + '" name="' + light.id + '" class="colorPicker jscolor">';
+    }).join("");
+}
 /*
  * Retrive light mode settings from file and assign values to the settings variable.
  */
@@ -101,18 +101,18 @@ function setupColorInputFields(settings) {
     settings.nightMode.lights.forEach(function(light) {
         var hsv = lightHueToHSV(light);
         document.getElementById("nightMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
-          });
+    });
 
-        var inputsForStandardMode = getColorInputs(settings.standard.lights, 'standardMode');
-        $("#standardMode").prepend(inputsForStandardMode);
+    var inputsForStandardMode = getColorInputs(settings.standard.lights, 'standardMode');
+    $("#standardMode").prepend(inputsForStandardMode);
 
     jscolor.installByClassName("jscolor");
 
-        // set default color of input fields
-        settings.standard.lights.forEach(function(light) {
-            var hsv = lightHueToHSV(light);
-            document.getElementById("standardMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
-        });
+    // set default color of input fields
+    settings.standard.lights.forEach(function(light) {
+        var hsv = lightHueToHSV(light);
+        document.getElementById("standardMode-" + light.id).jscolor.fromHSV(hsv[0], hsv[1], hsv[2]);
+    });
 
 }
 
@@ -143,6 +143,8 @@ function lightHueToHSV(light) {
  * Connect to Philips Hue bridge.
  */
 $(document).ready(function() {
+
+    /* FUNCTIONS TO CONNECT TO BRIDGE AND LIGHTS IN BRIDGE */
 
     $.ajax({
         url: hueURL,
@@ -224,6 +226,9 @@ $(document).ready(function() {
             }
         });
     }
+
+    /* FUNCTIONS FOR CREATING EFFECTS */
+
     /*
      * Philips Hue call to update light state for a lamp to toggle on off (blink).
      * On succes, new state is received.
@@ -246,12 +251,7 @@ $(document).ready(function() {
         });
     }
 
-
-
-    /*
-     * Activate daymode according to interval.
-     */
-    setInterval(dayMode, 60000);
+    /* FUNCTIONS TO UPDATE SETTINGS FOR SELECTED MODE */
 
     /*
      * Day mode settings.
@@ -271,7 +271,34 @@ $(document).ready(function() {
         saveSettings(settings);
     });
 
-	/*
+
+    /*
+     * Standard mode settings.
+     * Update settings for lamp colors in daymode.
+     */
+    $("#standardMode").submit(function(e) {
+
+        e.preventDefault();
+        console.log("skickade formuläret");
+
+        // create new array from old settings
+        var newLampSettings = settings.standard.lights.map(function(light) {
+            var newHue = HSVtoHue(e.target.elements[light.id].jscolor.hsv);
+
+            light.sat = newHue.sat;
+            light.bri = newHue.bri;
+            light.hue = newHue.hue;
+
+            return light;
+        });
+        console.log(newLampSettings);
+        // update current settings with new lights
+        settings.standard.lights = newLampSettings;
+        // save settings to server
+        saveSettings(settings);
+    });
+
+    /*
      * Night mode settings.
      * Update settings for time in wake up mode.
      */
@@ -299,7 +326,7 @@ $(document).ready(function() {
         saveSettings(settings);
     });
 
-	/*
+    /*
      * Wake up settings.
      * Update settings for time in wake up mode.
      */
@@ -317,7 +344,14 @@ $(document).ready(function() {
         saveSettings(settings);
     });
 
-	/*
+    /* FUNCTIONS TO SET SELECTED MODE */
+
+    /*
+     * Activate daymode according to interval.
+     */
+    setInterval(dayMode, 60000);
+
+    /*
      * Day mode.
      * When daymode is active, corresponding settingse are
      * active at different hours depending on if it is a weekday or weekend.
@@ -431,7 +465,7 @@ $(document).ready(function() {
     setInterval(awayMode, 600000);
     setInterval(wakeUp, 60000);
 
-	/*
+    /*
      * Wake up mode.
      * When wake up is active, corresponding settingse are
      * active at different hours depending on if it is a weekday or weekend.
@@ -509,6 +543,8 @@ $(document).ready(function() {
         }, 20000);
     }
 
+    /* ADDING LISTENERS */
+
     /*
      * Adding listeners for the light mode icons.
      */
@@ -578,31 +614,5 @@ $(document).ready(function() {
         $(this).children("h3").children("i").toggleClass("fa-angle-down");
     });
 
-    /*
-     * Add event for Nightmode, change color in settings.html
-     */
 
-    $("#standardMode").submit(function(e) {
-
-        e.preventDefault();
-        console.log("skickade formuläret");
-
-        // create new array from old settings
-        var newLampSettings = settings.standard.lights.map(function(light) {
-            var newHue = HSVtoHue(e.target.elements[light.id].jscolor.hsv);
-
-            light.sat = newHue.sat;
-            light.bri = newHue.bri;
-            light.hue = newHue.hue;
-
-            return light;
-        });
-
-        console.log(newLampSettings);
-
-        // update current settings with new lights
-        settings.standard.lights = newLampSettings;
-        // save settings to server
-        saveSettings(settings);
-    });
 }); //end document ready
