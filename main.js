@@ -37,6 +37,12 @@ var isHoldingDown = false;
  * Variable for the arduino to set a specific time interval for daymode.
  */
 var interval;
+
+var dayModeInterval;
+
+var awayModeInterval;
+
+var WakeUpInterval;
 /*
  * Returns the current color settings for the lamps.
  */
@@ -352,11 +358,6 @@ $(document).ready(function() {
     /* FUNCTIONS TO SET SELECTED MODE */
 
     /*
-     * Activate daymode according to interval.
-     */
-    var clearDaymode = setInterval(dayMode, 10*1000);
-
-    /*
      * Day mode.
      * When daymode is active, corresponding settingse are
      * active at different hours depending on if it is a weekday or weekend.
@@ -466,9 +467,7 @@ $(document).ready(function() {
 
         console.log("awayMode");
     }
-    var awayModeInterval = setInterval(awayMode, 60*60*1000);
 
-    var clearWakeUp = setInterval(wakeUp, 10*1000);
 
     /*
      * Wake up mode.
@@ -642,13 +641,18 @@ $(document).ready(function() {
 
     /* ADDING LISTENERS */
 
+
+
+
+
     /*
      * Adding listeners for the light mode icons.
      */
     $("#daymode").click(function() {
         console.log("day");
+        dayModeInterval = setInterval(dayMode, 10*1000);
         clearInterval(awayModeInterval);
-        clearInterval(clearWakeUp);
+        clearInterval(WakeUpInterval);
         dayMode();
 
     });
@@ -660,27 +664,30 @@ $(document).ready(function() {
 
     $("#standard").click(function() {
         clearInterval(awayModeInterval);
-        clearInterval(clearDaymode);
-        clearInterval(clearWakeUp);
+        clearInterval(dayModeInterval);
+        clearInterval(WakeUpInterval);
         standard();
     });
 
     $("#fullsecurity").click(function() {
-        clearInterval(clearDaymode);
-        clearInterval(clearWakeUp);
+        awayModeInterval = setInterval(awayMode, 60*60*1000);
+        clearInterval(dayModeInterval);
+        clearInterval(WakeUpInterval);
         awayMode();
     });
 
     $("#wakeup").click(function() {
-        clearInterval(clearDaymode);
+        WakeUpInterval = setInterval(wakeUp, 10*1000);
+        console.log(WakeUpInterval);
+        clearInterval(dayModeInterval);
         clearInterval(awayModeInterval);
         console.log("wake");
         wakeUp();
     });
 
     $("#panic").click(function() {
-        clearInterval(clearDaymode);
-        clearInterval(clearWakeUp);
+        clearInterval(dayModeInterval);
+        clearInterval(WakeUpInterval);
         clearInterval(awayModeInterval);
         panicMode();
     });
