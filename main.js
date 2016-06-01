@@ -358,11 +358,6 @@ $(document).ready(function() {
     /* FUNCTIONS TO SET SELECTED MODE */
 
     /*
-     * Activate daymode according to interval.
-     */
-
-
-    /*
      * Day mode.
      * When daymode is active, corresponding settingse are
      * active at different hours depending on if it is a weekday or weekend.
