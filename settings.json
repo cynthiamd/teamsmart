@@ -110,8 +110,7 @@
       "button1":"",
       "button2":"",
       "hours":"10",
-      "minute":"0",
-      "mode":"",
+      "minute":"10",
       "lights":[
          {
             "id":"lamp1",

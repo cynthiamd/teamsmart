@@ -254,6 +254,26 @@ $(document).ready(function() {
     /* FUNCTIONS TO UPDATE SETTINGS FOR SELECTED MODE */
 
     /*
+     * Wake up settings.
+     * Update settings for time in wake up mode.
+     */
+    $("#wakeUp").submit(function(w) {
+        w.preventDefault();
+        console.log("hej");
+
+        var hour = w.target.elements.hour.value;
+        var minute = w.target.elements.minute.value;
+
+        console.log('settings before change', settings.wakeUp);
+        settings.wakeUp.hours = hour;
+        settings.wakeUp.minute = minute;
+        console.log('settings after change', settings.wakeUp);
+
+        saveSettings(settings);
+
+    });
+
+    /*
      * Day mode settings.
      * Update settings for lamp colors in daymode.
      */
@@ -261,6 +281,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         var hour = e.target.elements.hour.value;
+
         var minute = e.target.elements.minute.value;
 
         console.log('settings before change', settings.dayMode);
@@ -326,23 +347,7 @@ $(document).ready(function() {
         saveSettings(settings);
     });
 
-    /*
-     * Wake up settings.
-     * Update settings for time in wake up mode.
-     */
-    $("#wakeUp").submit(function(e) {
-        e.preventDefault();
 
-        var hour = e.target.elements.hour.value;
-        var minute = e.target.elements.minute.value;
-
-        console.log('settings before change', settings.wakeUp);
-        settings.wakeUp.hours = hour;
-        settings.wakeUp.minute = minute;
-        console.log('settings after change', settings.wakeUp);
-        // dayMode(hour, minute);
-        saveSettings(settings);
-    });
 
     /* FUNCTIONS TO SET SELECTED MODE */
 
@@ -462,7 +467,8 @@ $(document).ready(function() {
 
         console.log("awayMode");
     }
-    setInterval(awayMode, 600000);
+    var awayModeInterval = setInterval(awayMode, 60*60*1000);
+
     setInterval(wakeUp, 60000);
 
     /*
@@ -472,6 +478,10 @@ $(document).ready(function() {
      * Wake up light toggles on off every minute.
      */
     function wakeUp() {
+        if (!settings) {
+            console.log('settings har inte hämtats');
+            return false;
+        }
         //Get current date in milliseconds
         var now = new Date();
         //Get current time 10:28
@@ -505,10 +515,7 @@ $(document).ready(function() {
                 });
                 console.log("Weekend");
             }
-
-
         }
-
     }
     /*
      * Panic mode.
@@ -640,14 +647,19 @@ $(document).ready(function() {
      * Adding listeners for the light mode icons.
      */
     $("#daymode").click(function() {
+        console.log("day");
+        clearInterval(awayModeInterval);
         dayMode();
+
     });
 
     $("#nightmode").click(function() {
+        clearInterval(awayModeInterval);
         nightMode();
     });
 
     $("#standard").click(function() {
+        clearInterval(awayModeInterval);
         standard();
     });
 
@@ -656,14 +668,18 @@ $(document).ready(function() {
     });
 
     $("#wakeup").click(function() {
+        clearInterval(awayModeInterval);
+        console.log("wake");
         wakeUp();
     });
 
     $("#panic").click(function() {
+        clearInterval(awayModeInterval);
         panicMode();
     });
 
     $("#disco").click(function() {
+        clearInterval(awayModeInterval);
         discoMode();
     });
 
