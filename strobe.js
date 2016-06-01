@@ -1,49 +1,64 @@
-//Require johnny-five, arduino board and the buttons
+//Require johnny-five, arduino board and the button an saves it into a variable
 var five = require("johnny-five"),
     board, button1, button2;
-//Create a new board
+//Create an object of the arduino board
 board = new five.Board();
-//global variable for the philips hue settings
+//These global variable are used when making a request to philips hue api. it sets the stats on the lamp and the color we
+//intend to use.
 var on;
 var sat;
 var hue;
 var bri;
 //require request libary
 var request = require('request');
+//require the dns
 var dns = require("dns");
+//require the ping
 var ping = require('net-ping');
+//create a ping session an save it to a varibale
 var session = ping.createSession();
+//sets foundBridge to fales
 var foundBridge = false;
-var ipAdress = "192.168.10.247";
-//If not holding button down.
+//this is the ip adress we use to ping and check if there is an established connection with the host.
+var ipAdress = "192.168.251.185";
+//setting the varibale isHoldingDown to false.
 var isHoldingDown = false;
-//Our timer for double click
+//Our timer for on click event and its set at 1.25 seconds.
 var timerOneclick = 1250;
+//Our timer for a double click event and its set on 1.5 seconds
 var timerDblClick = 1500;
+//a global variblae for signletimer
 var singelTimer;
 //Count our clicks
 var count = 0;
 //API for Phillips Hue
-var HueApi = "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
-//Bedroom
+var HueApi = "http://192.168.251.185/api/28dd08062078de67270d8b6ab5b3f9b";
+//lamp for the Bedroom-
 var lamp1 = "1/state";
-//Livingroom
+//lamp for the Livingroom
 var lamp2 = "2/state";
-//Hallway
+//lamp for the Hallway
 var lamp3 = "3/state";
+//Create and empty array and saves it to variable lamps
 var lamps = [];
+//global variable interval use to set and remember the latest interval used
 var interval;
+//global varibale settings used to store the latest settings from the settings file required from the php server.
 var settings;
+
+//Sets the entire arduino in ready state or activate it. Now the user can use the arduino board.
 board.on("ready", function() {
     // Create a new `button` hardware instance.
     // This example allows the button module to
     // create a completely default instance
     //holdtime is the timer for how long you hold down the button.
     button1 = new five.Button({
+    //button 1 is attachted to pin2 on the arduino board
         pin: 2,
         holdtime: 1000
     });
     button2 = new five.Button({
+      //button 2 is attachted to pin3 on the arduino board
         pin: 3,
         holdtime: 1000
     });
@@ -52,7 +67,7 @@ board.on("ready", function() {
     board.repl.inject({
         piezo: piezo
     });
-    // make an request to get the settings file and save the data from the file into the variable settings.
+    // This function makes an request to get the settings file and save the data from the file into the variable settings.
     function getJSONfile() {
             request('http://xn--paulinehgh-lcb.se/smarthome/json.php',
                 function(error, response, body) {
@@ -62,10 +77,9 @@ board.on("ready", function() {
                     }
                 });
         }
-    // run the controllConnection function every 1 second.
+    // This function will run the controllConnection function every 1 second.
     setInterval(controllConnection, 1000);
-    //Ping the host of the ip adress and if there is an error play a beep sound through the piezo.
-    //otherwise fetch the light from philips hue api and get the file containing all the settings for the lamps.
+    //This function helps us control and check if we have an connection with the host, in this case philips hue.
     function controllConnection() {
         session.pingHost(ipAdress, function(err, t) {
             if (err) {
@@ -89,7 +103,7 @@ board.on("ready", function() {
             //sends an request to philips hue api.
             request({
                 method: 'POST',
-                url: HueApi
+                url: HueApi // the url we make the request to.
             }, function(err, res, body) {
                 if (err) {
                   //plays a beep sound through piezo
@@ -103,6 +117,7 @@ board.on("ready", function() {
                 }
                 request(HueApi, function(err, res, body) {
                     if (err) {
+                      //plays a beep sound through piezo
                         piezo.play({
                             song: "C C C C",
                             beats: 1 / 4,
@@ -122,19 +137,19 @@ board.on("ready", function() {
     function changeColor(lamp, statement) {
         request({
             method: "PUT",
-            url: HueApi + lamp,
-            json: statement
+            url: HueApi + lamp, // the url we send a request to.
+            json: statement // takes an object containing properties: on,sat,bri and hue.
         });
     }
-    //This function will turnoff the lamps by looking at the settings from the settings file.
+    //This function will turnoff the lamps by looking at the settings from the settings file and change the lamp according to it. It will go through all the lamps available and then shut it off.
     function turnOff(lamp) {
             settings.dayMode.lights.forEach(function(light) {
                 changeColor("/lights/" + light.id.substr(-1) +
                     "/state", {
-                        on: light.on,
-                        sat: light.sat,
-                        bri: light.bri,
-                        hue: light.hue
+                        on: light.on, //on is the state of the lamp. its either true or fales.
+                        sat: light.sat, // color saturation
+                        bri: light.bri,// color brightness
+                        hue: light.hue// hue?
                     });
             });
         }
@@ -142,9 +157,9 @@ board.on("ready", function() {
     setInterval(dayMode, 60000);
     //This function activates day mode and shuts off the lights at a specified time.
     function dayMode() {
-            //Get current date in milliseconds
+            //Creates and new date object.
             var now = new Date();
-            //Get current time 10:28
+            //Get current time
             var timefor = now.getHours() + ":" + now.getMinutes();
             //Get current weekday number 0-6
             var day = now.getDay();
@@ -156,7 +171,7 @@ board.on("ready", function() {
                         console.log('bridge doesnt exist');
                         return;
                     }
-                    //Turn off lamps
+                    //Turn off lamp1,2 and 3
                     turnOff(lamp1);
                     turnOff(lamp2);
                     turnOff(lamp3);
@@ -169,7 +184,7 @@ board.on("ready", function() {
                         console.log('bridge doesnt exist');
                         return;
                     }
-                    //Turn off lamps
+                    //Turn off lamp1,2 and 3
                     turnOff(lamp1);
                     turnOff(lamp2);
                     turnOff(lamp3);
@@ -178,13 +193,19 @@ board.on("ready", function() {
             }
         }
     //button1 functions
+    //when hold down button1 we activate buttonPanic function.
     button1.on("hold", buttonPanic);
+    //when click button1 once we activate buttonDownMultiClick fucntion.
     button1.on("down", buttonDownMultiClick);
+    //when button1 is released, call function buttonUp.
     button1.on("up", buttonUp);
 
     //button2 functions
+    //when click button2 once we activate buttonTwoDown
     button2.on("down", buttonTwoDown);
+    //when hold down button2 we activate buttonPanic function.
     button2.on("hold", buttonPanic);
+    //when button2 is released, call function buttonUp.
     button2.on("up", buttonUp);
 
     //buttonpanic will make all the lamps turn into a red color and starts blinking for around 30 seconds.
@@ -216,6 +237,7 @@ board.on("ready", function() {
             // plays the beep sound in a iterval every 3 seconds for 20 seconds
             interval = setInterval(function() {
                 piezo.play({
+                  //play beep sound from piezo
                     song: "C C C C",
                     beats: 1 / 4,
                     tempo: 100
@@ -307,7 +329,9 @@ board.on("ready", function() {
         count++;
         //If one click
         if (count === 1) {
+          //this function should activate after a certain time
             singelTimer = setTimeout(function() {
+              //reset the count clicks to 0.
                 count = 0;
                 console.log("One Click Button two");
             }, timerOneclick);
@@ -323,7 +347,9 @@ board.on("ready", function() {
                 setInterval(awayMode, 60 * 10 * 1000);
             }, timerDblClick);
         } else if (count === 3) {
+          //reset the click counts to 0.
             count = 0;
+          //go through each lamps available and send the settings according to the file to philips hue api
             settings.standard.lights.forEach(function(light) {
                 changeColor("/lights/" + light.id.substr(-1) +
                     "/state", {
@@ -363,11 +389,12 @@ board.on("ready", function() {
         for (var i = 0; i < arr.length; i++) {
           //if the array contains anythings thats the same as ljus
             if (arr[i] == ljus) {
-              //save it to lol
+              //save it to lightsForaway
                 var lightsForaway = arr[i];
                 console.log(lightsForaway);
             }
         }
+        //go through each lamp and send the correct settings according to the file to philips hue api.
         settings.awayMode.cycle[lightsForaway].forEach(function(light) {
             changeColor("/lights/" + light.id.substr(-1) +
                 "/state", {
