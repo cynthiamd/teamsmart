@@ -548,12 +548,15 @@ $(document).ready(function() {
         }, 20000);
     }
 
+
+/* enable discomode */
     function discoMode() {
+        /* send error message if JSONobject hasn't been received */
         if (!settings) {
             console.log('settings har inte hämtats');
             return false;
         }
-
+/* discomode doesnt need a color (it cycles through all) but this gives the ability to change in future, det to panicmode at this moment since discomode isnt avalible in the JSONobject */
         settings.panicMode.lights.forEach(function(light) {
             changeColor("/lights/" + light.id.substr(-1) + "/state", {
                 on: light.on,
@@ -563,21 +566,26 @@ $(document).ready(function() {
             });
         });
         console.log("discoMode");
-
+        /* sets of the colorwheel function for each of the three lamps */
         colorWheel(lamp1);
         colorWheel(lamp2);
         colorWheel(lamp3);
-
+        /* plays the same sound as the panicmode, the sound should be changed in the future*/
+        /* creates interval for sound*/
         interval = setInterval(function() {
             var audiofile = document.getElementById('audio');
             audiofile.play();
+            /* repeats audiofile every 2000 milliseconds */
         }, 2000);
+        /* clears the interval after 20000 milliseconds */
         setTimeout(function() {
             clearInterval(interval);
         }, 20000);
+        /* resets the effect to none to stop all the modes to be in colorWheel mode after 19000 milliseconds*/
         clearLoop = setInterval(function(lamp) {
             var statement = {
                 "on": true,
+                /* effect is set back to none */
                 "effect":"none"
             };
             $.ajax({
@@ -592,15 +600,18 @@ $(document).ready(function() {
                 }
 
             });
+            /* clears the effect on each of the three lamps */
             clearColorWheel(lamp1);
             clearColorWheel(lamp2);
             clearColorWheel(lamp3);
         }, 19000);
+        /* stops det clear interval to make sure it doesnt keep running after stoping the colorwheel effect once*/
         setTimeout(function() {
             clearInterval(clearLoop);
         }, 20000);
     }
 
+/* function to start colorwheel effect can be reused for other modes if needed*/
     function colorWheel(lamp) {
         var statement = {
             "on": true,
@@ -618,7 +629,7 @@ $(document).ready(function() {
             }
         });
     }
-
+/* function to stop colorwheel effect can be reused for other modes if needed*/
     function clearColorWheel(lamp) {
         var statement = {
             "on": true,
@@ -693,7 +704,9 @@ $(document).ready(function() {
     });
 
     $("#disco").click(function() {
+        /* clears the awaymode interval to stop interfearans */
         clearInterval(awayModeInterval);
+        /* starts the discomode function*/
         discoMode();
     });
 
