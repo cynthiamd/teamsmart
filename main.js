@@ -1,7 +1,7 @@
 /*
  * API URL for Philips Hue
  */
-var hueURL = "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
+var hueURL = "http://192.168.251.185/api/28dd08062078de67270d8b6ab5b3f9b";
 /*
  * Partial API for Philips lights
  */
@@ -354,7 +354,7 @@ $(document).ready(function() {
     /*
      * Activate daymode according to interval.
      */
-    setInterval(dayMode, 60000);
+    var clearDaymode = setInterval(dayMode, 10*1000);
 
     /*
      * Day mode.
@@ -402,7 +402,6 @@ $(document).ready(function() {
 
     /*
      * Standard mode.
-     * Currently not implemented for the webb application.
      */
     function standard() {
         if (!settings) {
@@ -469,7 +468,7 @@ $(document).ready(function() {
     }
     var awayModeInterval = setInterval(awayMode, 60*60*1000);
 
-    setInterval(wakeUp, 60000);
+    var clearWakeUp = setInterval(wakeUp, 10*1000);
 
     /*
      * Wake up mode.
@@ -649,6 +648,7 @@ $(document).ready(function() {
     $("#daymode").click(function() {
         console.log("day");
         clearInterval(awayModeInterval);
+        clearInterval(clearWakeUp);
         dayMode();
 
     });
@@ -660,20 +660,27 @@ $(document).ready(function() {
 
     $("#standard").click(function() {
         clearInterval(awayModeInterval);
+        clearInterval(clearDaymode);
+        clearInterval(clearWakeUp);
         standard();
     });
 
     $("#fullsecurity").click(function() {
+        clearInterval(clearDaymode);
+        clearInterval(clearWakeUp);
         awayMode();
     });
 
     $("#wakeup").click(function() {
+        clearInterval(clearDaymode);
         clearInterval(awayModeInterval);
         console.log("wake");
         wakeUp();
     });
 
     $("#panic").click(function() {
+        clearInterval(clearDaymode);
+        clearInterval(clearWakeUp);
         clearInterval(awayModeInterval);
         panicMode();
     });
