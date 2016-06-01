@@ -52,7 +52,7 @@ function getColorInputs(lights, mode)  {
     }).join("");
 }
 /*
- * Retrive light mode settings from file and assign values to the settings variable.
+ * Retrieve light mode settings from file and assign values to the settings variable.
  */
 function getSettings() {
     $.ajax({
@@ -66,7 +66,7 @@ function getSettings() {
     });
 }
 /*
- * Get Json from jasonURL and add color settings from settings.json
+ * Get Json from jsonURL and add color settings from settings.json
  */
 
 $.getJSON(jsonURL, function(json) {
@@ -76,7 +76,7 @@ $.getJSON(jsonURL, function(json) {
 });
 
 /*
-  Save our settings color settings!
+  Save our color settings!
  */
 
 function saveSettings(settings) {
@@ -91,7 +91,7 @@ function saveSettings(settings) {
 }
 
 /*
- * function to set up color settings from fields i settings.html
+ * function to set up color settings from fields in settings.html
  */
 
 function setupColorInputFields(settings) {
@@ -146,7 +146,7 @@ function lightHueToHSV(light) {
     ];
 }
 /*
- * Connect to Philips Hue bridge.
+ * Connect to Philips Hue bridge
  */
 $(document).ready(function() {
 
@@ -177,7 +177,7 @@ $(document).ready(function() {
         });
     }
     /*
-     * Connect to Philips Hue lighs in the bridge to retreive a lamp.
+     * Connect to Philips Hue lighs in the bridge to retrieve a lamp.
      */
     function getLamps() {
         $.ajax({
@@ -191,9 +191,8 @@ $(document).ready(function() {
     }
 
     /*
-     * Connect to Philips Hue lighs connected to the bridge, to retreive a lamp.
+     * Connect to Philips Hue lights connected to the bridge, to retrieve a lamp.
      * On succes, new state is returned in the response.
-     * Pending jibberish to be removed? 9438c4b66bb9646f80f8dc3470356264ad444aa8
      */
     function changeColor(lamp, statement) {
 
@@ -236,7 +235,7 @@ $(document).ready(function() {
     /* FUNCTIONS FOR CREATING EFFECTS */
 
     /*
-     * Philips Hue call to update light state for a lamp to toggle on off (blink).
+     * Philips Hue calls to update light state for a lamp to toggle on off (blink).
      * On succes, new state is received.
      */
     function alert(lamp) {
@@ -325,11 +324,11 @@ $(document).ready(function() {
         saveSettings(settings);
     });
 
+
     /*
      * Night mode settings.
      * Update settings for time in wake up mode.
      */
-
     $("#nightMode").submit(function(e) {
 
         e.preventDefault();
@@ -419,6 +418,7 @@ $(document).ready(function() {
         });
         clearInterval(interval);
     }
+
     /*
      * Night mode.
      * Changes lights state according to settings.
@@ -443,7 +443,7 @@ $(document).ready(function() {
 
     /*
      * Away mode.
-     * Changes lights state every hour according to settings shedule.
+     * Changes lights state every hour according to settings schedule.
      */
     function awayMode() {
         var nu = new Date();
@@ -471,7 +471,7 @@ $(document).ready(function() {
 
     /*
      * Wake up mode.
-     * When wake up is active, corresponding settingse are
+     * When wake up is active, corresponding settings are
      * active at different hours depending on if it is a weekday or weekend.
      * Wake up light toggles on off every minute.
      */
@@ -515,6 +515,7 @@ $(document).ready(function() {
             }
         }
     }
+
     /*
      * Panic mode.
      * Lamps light toggles on off every minute for a duration of 20000 ms.
@@ -556,7 +557,8 @@ $(document).ready(function() {
             console.log('settings har inte hämtats');
             return false;
         }
-/* discomode doesnt need a color (it cycles through all) but this gives the ability to change in future, det to panicmode at this moment since discomode isnt avalible in the JSONobject */
+/* discomode doesn't need a color (it cycles through all) but this gives the ability to change in future
+ * set to panicmode at this moment since discomode isnt avalible in the JSONobject */
         settings.panicMode.lights.forEach(function(light) {
             changeColor("/lights/" + light.id.substr(-1) + "/state", {
                 on: light.on,
@@ -605,7 +607,7 @@ $(document).ready(function() {
             clearColorWheel(lamp2);
             clearColorWheel(lamp3);
         }, 19000);
-        /* stops det clear interval to make sure it doesnt keep running after stoping the colorwheel effect once*/
+        /* stops the clear interval to make sure it doesn't keep running after stopping the colorwheel effect once*/
         setTimeout(function() {
             clearInterval(clearLoop);
         }, 20000);
@@ -651,8 +653,6 @@ $(document).ready(function() {
 
 
     /* ADDING LISTENERS */
-
-
 
 
 
