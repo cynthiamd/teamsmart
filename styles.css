@@ -150,6 +150,11 @@ button:hover {
     color: white;
 }
 
+.disco button {
+    background-color: #635f66;
+    border-color: #635f66;
+}
+
 /* Font changes */
 
 h1 {
@@ -170,22 +175,22 @@ h3 {
 
 /* Fade to unused content*/
 
-#calendar, 
-#calendar + h3, 
-#facebook, 
-#facebook + h3, 
-#socialsetting, 
-#socialpick, 
-#fullsecsetting, 
-#fullpick, 
-#calendarpick, 
-#calendarsetting, 
-#panicsetting, 
+#calendar,
+#calendar + h3,
+#facebook,
+#facebook + h3,
+#socialsetting,
+#socialpick,
+#fullsecsetting,
+#fullpick,
+#calendarpick,
+#calendarsetting,
+#panicsetting,
 #panicpick {
     opacity: 0.2;
 }
 
-#settingsheading, 
+#settingsheading,
 .fa-angle-right {
     margin-left: 10px;
 }

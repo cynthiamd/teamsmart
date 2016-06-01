@@ -543,6 +543,97 @@ $(document).ready(function() {
         }, 20000);
     }
 
+    function discoMode() {
+        if (!settings) {
+            console.log('settings har inte hämtats');
+            return false;
+        }
+
+        settings.panicMode.lights.forEach(function(light) {
+            changeColor("/lights/" + light.id.substr(-1) + "/state", {
+                on: light.on,
+                sat: light.sat,
+                bri: light.bri,
+                hue: light.hue
+            });
+        });
+        console.log("discoMode");
+
+        colorWheel(lamp1);
+        colorWheel(lamp2);
+        colorWheel(lamp3);
+
+        interval = setInterval(function() {
+            var audiofile = document.getElementById('audio');
+            audiofile.play();
+        }, 2000);
+        setTimeout(function() {
+            clearInterval(interval);
+        }, 20000);
+        clearLoop = setInterval(function(lamp) {
+            var statement = {
+                "on": true,
+                "effect":"none"
+            };
+            $.ajax({
+                url: hueURL + lamp,
+                type: "PUT",
+                data: JSON.stringify(statement),
+                contentType: "application/json",
+                success: function(response) {
+                    //Take the first song in an array!
+                    console.log(response);
+                    //Api for voicerss
+                }
+
+            });
+            clearColorWheel(lamp1);
+            clearColorWheel(lamp2);
+            clearColorWheel(lamp3);
+        }, 19000);
+        setTimeout(function() {
+            clearInterval(clearLoop);
+        }, 20000);
+    }
+
+    function colorWheel(lamp) {
+        var statement = {
+            "on": true,
+            "effect":"colorloop"
+        };
+        $.ajax({
+            url: hueURL + lamp,
+            type: "PUT",
+            data: JSON.stringify(statement),
+            contentType: "application/json",
+            success: function(response) {
+                //Take the first song in an array!
+                console.log(response);
+                //Api for voicerss
+            }
+        });
+    }
+
+    function clearColorWheel(lamp) {
+        var statement = {
+            "on": true,
+            "effect":"none"
+        };
+        $.ajax({
+            url: hueURL + lamp,
+            type: "PUT",
+            data: JSON.stringify(statement),
+            contentType: "application/json",
+            success: function(response) {
+                //Take the first song in an array!
+                console.log(response);
+                //Api for voicerss
+            }
+        });
+    }
+
+
+
     /* ADDING LISTENERS */
 
     /*
@@ -570,6 +661,10 @@ $(document).ready(function() {
 
     $("#panic").click(function() {
         panicMode();
+    });
+
+    $("#disco").click(function() {
+        discoMode();
     });
 
     /*
