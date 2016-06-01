@@ -1,7 +1,7 @@
 /*
  * API URL for Philips Hue
  */
-var hueURL = "http://192.168.251.185/api/28dd08062078de67270d8b6ab5b3f9b";
+var hueURL = "http://192.168.10.247/api/28dd08062078de67270d8b6ab5b3f9b";
 /*
  * Partial API for Philips lights
  */
